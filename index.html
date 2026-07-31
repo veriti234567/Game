@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LEGO Ведьмак - Охота на волков</title>
+    <title>LEGO Ведьмак - Полноэкранный режим</title>
     <style>
         * {
             margin: 0;
@@ -40,6 +40,7 @@
             max-width: 100vw;
             max-height: 100vh;
             gap: 4px;
+            position: relative;
         }
         .canvas-wrapper {
             position: relative;
@@ -224,25 +225,42 @@
             border-color: #FFD700;
         }
         #restartBtn,
-        #menuBtn {
+        #menuBtn,
+        #fullscreenBtn {
             background: rgba(74, 158, 110, 0.15);
             border: 1px solid #4a9e6e;
             color: #4a9e6e;
-            padding: 2px 8px;
+            padding: 2px 10px;
             border-radius: 3px;
             cursor: pointer;
             font-family: 'Courier New', monospace;
             font-size: 9px;
             transition: 0.3s;
+            touch-action: manipulation;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         #restartBtn:active,
-        #menuBtn:active {
+        #menuBtn:active,
+        #fullscreenBtn:active {
             transform: scale(0.95);
         }
         #menuBtn {
             border-color: #FFD700;
             color: #FFD700;
             background: rgba(255, 215, 0, 0.1);
+        }
+        #fullscreenBtn {
+            font-size: 14px;
+            padding: 2px 8px;
+            border-color: #4a9e6e;
+            color: #4a9e6e;
+            background: rgba(74, 158, 110, 0.1);
+        }
+        #fullscreenBtn:active {
+            background: rgba(74, 158, 110, 0.25);
         }
         .level-display {
             background: rgba(15, 52, 96, 0.85);
@@ -268,98 +286,145 @@
             border: 1px solid #FF8A65;
         }
 
-        /* СЕНСОРНЫЕ КНОПКИ */
-        .touch-controls {
+        /* МОБИЛЬНОЕ УПРАВЛЕНИЕ */
+        .mobile-controls {
             display: none;
-            width: 100%;
-            gap: 3px;
-            flex-shrink: 0;
-        }
-        .touch-controls .row {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            z-index: 10;
             display: flex;
             justify-content: space-between;
-            gap: 4px;
-            width: 100%;
+            align-items: flex-end;
+            pointer-events: none;
         }
-        .touch-controls .row-center {
+        .mobile-controls>* {
+            pointer-events: auto;
+        }
+
+        .walk-controls {
             display: flex;
-            justify-content: center;
-            gap: 4px;
-            width: 100%;
+            gap: 8px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 16px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .touch-btn {
-            background: rgba(74, 158, 110, 0.2);
-            border: 2px solid rgba(74, 158, 110, 0.4);
-            border-radius: 6px;
+        .walk-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
             color: #fff;
-            font-size: 16px;
-            padding: 6px 8px;
-            min-width: 32px;
-            text-align: center;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            flex: 1;
+            font-size: 24px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            -webkit-touch-callout: none;
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: 0.1s;
         }
-        .touch-btn:active {
-            transform: scale(0.92);
-            background: rgba(74, 158, 110, 0.35);
+        .walk-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
         }
-        .touch-btn .label {
-            font-size: 6px;
+        .walk-btn .label {
+            font-size: 7px;
             display: block;
             color: #888;
             font-weight: normal;
+            margin-top: 2px;
         }
-        .touch-btn.dpad {
-            padding: 6px 8px;
-            min-width: 28px;
-            font-size: 18px;
-            flex: 0.7;
+
+        .action-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
         }
-        .touch-btn.action {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: rgba(255, 215, 0, 0.3);
+        .action-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
-        .touch-btn.action:active {
-            background: rgba(255, 215, 0, 0.3);
+        .action-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.12);
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            backdrop-filter: blur(4px);
+            transition: 0.1s;
         }
-        .touch-btn.potion {
-            padding: 3px 6px;
-            font-size: 12px;
-            min-width: 24px;
-            flex: 0.6;
+        .action-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 215, 0, 0.25);
+            border-color: #FFD700;
         }
-        .touch-btn.potion.potion-hp {
+        .action-btn.attack {
+            border-color: rgba(255, 107, 107, 0.4);
+            background: rgba(255, 107, 107, 0.12);
+            font-size: 28px;
+        }
+        .action-btn.attack:active {
+            background: rgba(255, 107, 107, 0.25);
+            border-color: #FF6B6B;
+        }
+        .action-btn .label {
+            font-size: 7px;
+            display: block;
+            color: #888;
+            font-weight: normal;
+            margin-top: 2px;
+        }
+        .action-btn.potion-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            border-width: 2px;
+        }
+        .action-btn.potion-btn.potion-hp {
             border-color: rgba(76, 175, 80, 0.4);
-            background: rgba(76, 175, 80, 0.15);
+            background: rgba(76, 175, 80, 0.12);
         }
-        .touch-btn.potion.potion-power {
+        .action-btn.potion-btn.potion-hp:active {
+            background: rgba(76, 175, 80, 0.25);
+        }
+        .action-btn.potion-btn.potion-power {
             border-color: rgba(255, 107, 0, 0.4);
-            background: rgba(255, 107, 0, 0.15);
+            background: rgba(255, 107, 0, 0.12);
         }
-        .touch-btn.potion.potion-shield {
+        .action-btn.potion-btn.potion-power:active {
+            background: rgba(255, 107, 0, 0.25);
+        }
+        .action-btn.potion-btn.potion-shield {
             border-color: rgba(0, 188, 212, 0.4);
-            background: rgba(0, 188, 212, 0.15);
+            background: rgba(0, 188, 212, 0.12);
         }
-        .touch-controls .left-group {
+        .action-btn.potion-btn.potion-shield:active {
+            background: rgba(0, 188, 212, 0.25);
+        }
+        .potion-row {
             display: flex;
-            gap: 3px;
-            align-items: center;
-            flex: 1;
+            gap: 6px;
         }
-        .touch-controls .right-group {
-            display: flex;
-            gap: 3px;
-            align-items: center;
-            flex: 1;
-            justify-content: flex-end;
-        }
+
         .controls-hint {
             color: #555;
             font-size: 7px;
@@ -394,40 +459,44 @@
                 padding: 1px 3px;
             }
             #restartBtn,
-            #menuBtn {
+            #menuBtn,
+            #fullscreenBtn {
                 font-size: 8px;
                 padding: 1px 6px;
             }
-            .touch-controls {
+            #fullscreenBtn {
+                font-size: 12px;
+                padding: 1px 6px;
+            }
+            .mobile-controls {
                 display: flex !important;
-                flex-direction: column;
-                gap: 3px;
             }
             .controls-hint {
                 display: block !important;
             }
-            .touch-btn {
-                padding: 5px 6px;
+            .walk-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+            .action-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+                border-width: 2.5px;
+            }
+            .action-btn.potion-btn {
+                width: 36px;
+                height: 36px;
                 font-size: 14px;
-                min-width: 28px;
-                border-radius: 5px;
-                border-width: 1.5px;
             }
-            .touch-btn.dpad {
-                padding: 5px 6px;
-                min-width: 28px;
-                font-size: 16px;
-            }
-            .touch-btn .label {
+            .action-btn .label,
+            .walk-btn .label {
                 font-size: 6px;
             }
-            .touch-btn.potion {
-                padding: 3px 5px;
-                font-size: 11px;
-                min-width: 20px;
-            }
-            .touch-btn.action {
-                font-size: 14px;
+            .walk-controls {
+                padding: 6px 10px;
+                gap: 6px;
             }
             .level-display {
                 font-size: 8px;
@@ -474,24 +543,29 @@
                 font-size: 7px;
                 padding: 1px 3px;
             }
-            .touch-btn {
-                padding: 4px 5px;
+            .walk-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+            }
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                border-width: 2px;
+            }
+            .action-btn.potion-btn {
+                width: 30px;
+                height: 30px;
                 font-size: 12px;
-                min-width: 22px;
-                border-radius: 4px;
             }
-            .touch-btn.dpad {
-                padding: 4px 5px;
-                min-width: 22px;
-                font-size: 14px;
+            .action-btn .label,
+            .walk-btn .label {
+                font-size: 5px;
             }
-            .touch-btn.potion {
-                padding: 2px 4px;
-                font-size: 10px;
-                min-width: 18px;
-            }
-            .touch-btn.action {
-                font-size: 12px;
+            .walk-controls {
+                padding: 4px 8px;
+                gap: 4px;
             }
             .menu-title {
                 font-size: 18px;
@@ -515,8 +589,13 @@
                 padding: 1px 4px;
             }
             #restartBtn,
-            #menuBtn {
+            #menuBtn,
+            #fullscreenBtn {
                 font-size: 7px;
+                padding: 1px 5px;
+            }
+            #fullscreenBtn {
+                font-size: 10px;
                 padding: 1px 5px;
             }
         }
@@ -544,39 +623,34 @@
                 font-size: 8px;
                 padding: 2px 5px;
             }
-            .touch-controls {
-                flex: 1 1 40%;
-                margin-top: 0;
-                padding-left: 4px;
-                gap: 4px;
-                max-height: 85%;
-                justify-content: center;
+            .mobile-controls {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
             }
-            .touch-controls .row {
-                gap: 5px;
+            .walk-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 26px;
             }
-            .touch-btn {
-                padding: 8px 10px;
+            .action-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+                border-width: 3px;
+            }
+            .action-btn.potion-btn {
+                width: 44px;
+                height: 44px;
                 font-size: 18px;
-                min-width: 35px;
-                border-radius: 6px;
-                border-width: 2px;
             }
-            .touch-btn.dpad {
-                padding: 8px 10px;
-                min-width: 35px;
-                font-size: 20px;
+            .action-btn .label,
+            .walk-btn .label {
+                font-size: 8px;
             }
-            .touch-btn .label {
-                font-size: 7px;
-            }
-            .touch-btn.potion {
-                padding: 4px 8px;
-                font-size: 14px;
-                min-width: 28px;
-            }
-            .touch-btn.action {
-                font-size: 18px;
+            .walk-controls {
+                padding: 8px 14px;
+                gap: 8px;
             }
             .controls-hint {
                 display: none !important;
@@ -586,8 +660,13 @@
                 padding: 2px 8px;
             }
             #restartBtn,
-            #menuBtn {
+            #menuBtn,
+            #fullscreenBtn {
                 font-size: 9px;
+                padding: 2px 10px;
+            }
+            #fullscreenBtn {
+                font-size: 16px;
                 padding: 2px 10px;
             }
             .menu-title {
@@ -623,27 +702,29 @@
                 padding: 2px;
                 gap: 2px;
             }
-            .touch-btn {
-                padding: 4px 6px;
-                font-size: 12px;
-                min-width: 24px;
-                border-radius: 4px;
+            .walk-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
             }
-            .touch-btn.dpad {
-                padding: 4px 6px;
-                min-width: 24px;
-                font-size: 14px;
+            .action-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+                border-width: 2px;
             }
-            .touch-btn.potion {
-                padding: 2px 4px;
-                font-size: 10px;
-                min-width: 18px;
-            }
-            .touch-btn.action {
+            .action-btn.potion-btn {
+                width: 32px;
+                height: 32px;
                 font-size: 12px;
             }
-            .touch-btn .label {
-                font-size: 5px;
+            .action-btn .label,
+            .walk-btn .label {
+                font-size: 6px;
+            }
+            .walk-controls {
+                padding: 4px 8px;
+                gap: 4px;
             }
             .ui span {
                 font-size: 7px;
@@ -654,8 +735,13 @@
                 padding: 1px 4px;
             }
             #restartBtn,
-            #menuBtn {
+            #menuBtn,
+            #fullscreenBtn {
                 font-size: 7px;
+                padding: 1px 5px;
+            }
+            #fullscreenBtn {
+                font-size: 12px;
                 padding: 1px 5px;
             }
             .menu-title {
@@ -688,6 +774,26 @@
         <div class="canvas-wrapper">
             <canvas id="gameCanvas" width="800" height="400"></canvas>
             <div class="weather-indicator" id="weatherIcon">🌙</div>
+
+            <!-- МОБИЛЬНОЕ УПРАВЛЕНИЕ -->
+            <div class="mobile-controls" id="mobileControls">
+                <div class="walk-controls">
+                    <div class="walk-btn" id="btnWalkLeft">◀<span class="label">влево</span></div>
+                    <div class="walk-btn" id="btnWalkRight">▶<span class="label">вправо</span></div>
+                </div>
+
+                <div class="action-controls">
+                    <div class="action-row">
+                        <div class="action-btn attack" id="btnAttack">⚔️<span class="label">атака</span></div>
+                        <div class="action-btn" id="btnJump">⬆<span class="label">прыжок</span></div>
+                    </div>
+                    <div class="potion-row">
+                        <div class="action-btn potion-btn potion-hp" id="btnPotion1">❤️<span class="label">HP</span></div>
+                        <div class="action-btn potion-btn potion-power" id="btnPotion2">⚡<span class="label">сила</span></div>
+                        <div class="action-btn potion-btn potion-shield" id="btnPotion3">🛡️<span class="label">щит</span></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="menu-overlay" id="menuOverlay">
                 <div class="menu-title">⚔️ LEGO <span style="color:#4a9e6e;">Ведьмак</span></div>
@@ -748,40 +854,59 @@
             <span>🐺 <span id="enemyDisplay">0</span></span>
             <span>⭐ <span id="buffDisplay">0</span></span>
             <span class="level-display">🏰 <span id="levelDisplay">1</span></span>
-            <div class="potions">
-                <span id="potion1" title="Зелье HP">🧪 <span id="potion1Count">0</span></span>
-                <span id="potion2" title="Зелье силы">🧪 <span id="potion2Count">0</span></span>
-                <span id="potion3" title="Зелье неуязвимости">🧪 <span id="potion3Count">0</span></span>
-            </div>
             <button id="menuBtn">📋</button>
+            <button id="fullscreenBtn">⛶</button>
             <button id="restartBtn">🔄</button>
         </div>
 
-        <div class="touch-controls" id="touchControls">
-            <div class="row">
-                <div class="left-group">
-                    <div class="touch-btn dpad" id="btnLeft">◀<span class="label">влево</span></div>
-                    <div class="touch-btn dpad" id="btnRight">▶<span class="label">вправо</span></div>
-                </div>
-                <div class="right-group">
-                    <div class="touch-btn action" id="btnJump">⬆<span class="label">прыжок</span></div>
-                    <div class="touch-btn action" id="btnAttack">⚔️<span class="label">атака</span></div>
-                </div>
-            </div>
-            <div class="row-center" style="margin-top:3px; gap:4px;">
-                <div class="touch-btn potion potion-hp" id="btnPotion1">❤️<span class="label">HP</span></div>
-                <div class="touch-btn potion potion-power" id="btnPotion2">⚡<span class="label">сила</span></div>
-                <div class="touch-btn potion potion-shield" id="btnPotion3">🛡️<span class="label">щит</span></div>
-            </div>
-        </div>
         <div class="controls-hint" id="controlsHint">
-            ⌨️ P1: ←↑→↓ | Пробел — атака | P2: WASD | Shift — атака
+            🎮 Кнопки ходьбы слева | Действия справа
         </div>
     </div>
 
     <script>
         // ============================================================
-        // 1. ИНИЦИАЛИЗАЦИЯ
+        // 1. ПОЛНОЭКРАННЫЙ РЕЖИМ
+        // ============================================================
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                const el = document.documentElement;
+                if (el.requestFullscreen) {
+                    el.requestFullscreen().catch(() => {});
+                } else if (el.webkitRequestFullscreen) {
+                    el.webkitRequestFullscreen();
+                } else if (el.msRequestFullscreen) {
+                    el.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenIcon() {
+            const isFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            fullscreenBtn.textContent = isFull ? '⛶' : '⛶';
+            fullscreenBtn.style.borderColor = isFull ? '#FFD700' : '#4a9e6e';
+            fullscreenBtn.style.color = isFull ? '#FFD700' : '#4a9e6e';
+        }
+
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+
+        // Обновляем иконку при загрузке
+        updateFullscreenIcon();
+
+        // ============================================================
+        // 2. ИНИЦИАЛИЗАЦИЯ КАНВАСА
         // ============================================================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -789,7 +914,69 @@
             H = 400;
 
         // ============================================================
-        // 2. UI ЭЛЕМЕНТЫ
+        // 3. СОСТОЯНИЕ КНОПОК (мобильные)
+        // ============================================================
+        const touchState = {
+            walkLeft: false,
+            walkRight: false,
+            jump: false,
+            attack: false,
+            jumpPressed: false,
+            attackPressed: false
+        };
+
+        // ============================================================
+        // 4. НАСТРОЙКА МОБИЛЬНЫХ КНОПОК
+        // ============================================================
+        function setupMobileButton(id, onStart, onEnd) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.addEventListener('touchstart', (e) => { e.preventDefault();
+                onStart(); }, { passive: false });
+            el.addEventListener('touchend', (e) => { e.preventDefault();
+                onEnd(); }, { passive: false });
+            el.addEventListener('touchcancel', (e) => { e.preventDefault();
+                onEnd(); }, { passive: false });
+            el.addEventListener('mousedown', onStart);
+            el.addEventListener('mouseup', onEnd);
+            el.addEventListener('mouseleave', onEnd);
+        }
+
+        // Кнопки ходьбы
+        setupMobileButton('btnWalkLeft',
+            () => { touchState.walkLeft = true; },
+            () => { touchState.walkLeft = false; }
+        );
+        setupMobileButton('btnWalkRight',
+            () => { touchState.walkRight = true; },
+            () => { touchState.walkRight = false; }
+        );
+
+        // Кнопки действий
+        setupMobileButton('btnJump',
+            () => { touchState.jump = true;
+                touchState.jumpPressed = true; },
+            () => { touchState.jump = false; }
+        );
+        setupMobileButton('btnAttack',
+            () => { touchState.attack = true;
+                touchState.attackPressed = true; },
+            () => { touchState.attack = false; }
+        );
+
+        // Кнопки зелий
+        document.getElementById('btnPotion1').addEventListener('touchstart', (e) => { e.preventDefault();
+            usePotion(player1, 0); }, { passive: false });
+        document.getElementById('btnPotion1').addEventListener('mousedown', () => usePotion(player1, 0));
+        document.getElementById('btnPotion2').addEventListener('touchstart', (e) => { e.preventDefault();
+            usePotion(player1, 1); }, { passive: false });
+        document.getElementById('btnPotion2').addEventListener('mousedown', () => usePotion(player1, 1));
+        document.getElementById('btnPotion3').addEventListener('touchstart', (e) => { e.preventDefault();
+            usePotion(player1, 2); }, { passive: false });
+        document.getElementById('btnPotion3').addEventListener('mousedown', () => usePotion(player1, 2));
+
+        // ============================================================
+        // 5. UI ЭЛЕМЕНТЫ
         // ============================================================
         const healthSpan1 = document.getElementById('healthDisplay1');
         const healthSpan2 = document.getElementById('healthDisplay2');
@@ -799,15 +986,12 @@
         const enemySpan = document.getElementById('enemyDisplay');
         const buffSpan = document.getElementById('buffDisplay');
         const levelSpan = document.getElementById('levelDisplay');
-        const potion1Count = document.getElementById('potion1Count');
-        const potion2Count = document.getElementById('potion2Count');
-        const potion3Count = document.getElementById('potion3Count');
         const controlsHint = document.getElementById('controlsHint');
         const menuOverlay = document.getElementById('menuOverlay');
         const weatherIcon = document.getElementById('weatherIcon');
 
         // ============================================================
-        // 3. РЕЖИМ ИГРЫ
+        // 6. РЕЖИМ ИГРЫ
         // ============================================================
         let gameMode = 'single';
         const modeBtns = document.querySelectorAll('.mode-btn');
@@ -821,7 +1005,7 @@
         });
 
         // ============================================================
-        // 4. СЛОЖНОСТЬ
+        // 7. СЛОЖНОСТЬ
         // ============================================================
         let currentDifficulty = 'normal';
         const diffBtns = document.querySelectorAll('.diff-btn');
@@ -848,7 +1032,7 @@
         function getDifficulty() { return difficultySettings[currentDifficulty] || difficultySettings.normal; }
 
         // ============================================================
-        // 5. СОХРАНЕНИЕ
+        // 8. СОХРАНЕНИЕ
         // ============================================================
         function saveStats() {
             const stats = {
@@ -858,19 +1042,19 @@
                 difficulty: currentDifficulty,
                 mode: gameMode
             };
-            try { localStorage.setItem('lego_witcher_wolf_final2', JSON.stringify(stats)); } catch (e) {}
+            try { localStorage.setItem('lego_witcher_fullscreen', JSON.stringify(stats)); } catch (e) {}
         }
 
         function loadStats() {
             try {
-                const data = localStorage.getItem('lego_witcher_wolf_final2');
+                const data = localStorage.getItem('lego_witcher_fullscreen');
                 if (data) return JSON.parse(data);
             } catch (e) {}
             return null;
         }
 
         function resetStats() {
-            localStorage.removeItem('lego_witcher_wolf_final2');
+            localStorage.removeItem('lego_witcher_fullscreen');
             player1.totalBestLevel = 1;
             player1.totalKills = 0;
             player1.totalBricks = 0;
@@ -883,7 +1067,7 @@
         const savedStats = loadStats();
 
         // ============================================================
-        // 6. ИГРОКИ
+        // 9. ИГРОКИ
         // ============================================================
         const player1 = {
             x: 80,
@@ -980,7 +1164,7 @@
         }
 
         // ============================================================
-        // 7. КЛАВИШИ
+        // 10. КЛАВИШИ (для ПК)
         // ============================================================
         const keys = {};
         document.addEventListener('keydown', (e) => {
@@ -994,7 +1178,7 @@
         document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
         // ============================================================
-        // 8. ЭЛИКСИРЫ
+        // 11. ЭЛИКСИРЫ
         // ============================================================
         function usePotion(player, index) {
             if (player.hp <= 0 || player.potions[index] <= 0) return;
@@ -1055,7 +1239,7 @@
         }
 
         // ============================================================
-        // 9. ЧАСТИЦЫ
+        // 12. ЧАСТИЦЫ
         // ============================================================
         let particles = [],
             rainDrops = [],
@@ -1143,7 +1327,7 @@
         }
 
         // ============================================================
-        // 10. ПОГОДА
+        // 13. ПОГОДА
         // ============================================================
         function updateWeather() {
             const diff = getDifficulty();
@@ -1170,7 +1354,7 @@
         }
 
         // ============================================================
-        // 11. ТЕКСТ
+        // 14. ТЕКСТ
         // ============================================================
         let floatingTexts = [];
 
@@ -1180,13 +1364,13 @@
         }
 
         // ============================================================
-        // 12. ГРАВИТАЦИЯ
+        // 15. ГРАВИТАЦИЯ
         // ============================================================
         const GRAVITY = 0.5;
         const FLOOR_Y = 360;
 
         // ============================================================
-        // 13. ЭЛИКСИРЫ НА ПОЛУ
+        // 16. ЭЛИКСИРЫ НА ПОЛУ
         // ============================================================
         let droppedPotions = [];
 
@@ -1197,19 +1381,17 @@
         }
 
         // ============================================================
-        // 14. СТОЛКНОВЕНИЯ
+        // 17. СТОЛКНОВЕНИЯ
         // ============================================================
         function rectCollide(a, b) {
             return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
         }
 
         // ============================================================
-        // 15. UI ОБНОВЛЕНИЕ
+        // 18. UI ОБНОВЛЕНИЕ
         // ============================================================
         function updatePotionUI() {
-            potion1Count.textContent = player1.potions[0];
-            potion2Count.textContent = player1.potions[1];
-            potion3Count.textContent = player1.potions[2];
+            // Показываем только P1 зелья в UI
         }
 
         function updateBuffUI() {
@@ -1233,22 +1415,20 @@
             if (gameMode === 'coop') {
                 p2HealthDisplay.style.display = 'inline-block';
                 healthSpan2.textContent = player2.hp;
-                controlsHint.textContent = '⌨️ P1: ←↑→↓ | Пробел — атака | P2: WASD | Shift — атака';
+                controlsHint.textContent = '🎮 Кнопки ходьбы слева | Действия справа | P2: WASD';
             } else {
                 p2HealthDisplay.style.display = 'none';
-                controlsHint.textContent = '⌨️ ←↑→↓ — движение | Пробел — атака | 1-3 — эликсиры';
+                controlsHint.textContent = '🎮 Кнопки ходьбы слева | Действия справа';
             }
             const totalBricks = player1.bricks + (gameMode === 'coop' ? player2.bricks : 0);
             const totalKills = player1.kills + (gameMode === 'coop' ? player2.kills : 0);
             brickSpan.textContent = totalBricks;
             enemySpan.textContent = totalKills;
-            updatePotionUI();
-            updateBuffUI();
             updateLevelUI();
         }
 
         // ============================================================
-        // 16. МЕНЮ
+        // 19. МЕНЮ
         // ============================================================
         function showMenu() {
             menuOverlay.classList.remove('hidden');
@@ -1260,12 +1440,8 @@
         function hideMenu() { menuOverlay.classList.add('hidden'); }
 
         // ============================================================
-        // 17. КНОПКИ
+        // 20. КНОПКИ
         // ============================================================
-        document.getElementById('potion1').onclick = () => usePotion(player1, 0);
-        document.getElementById('potion2').onclick = () => usePotion(player1, 1);
-        document.getElementById('potion3').onclick = () => usePotion(player1, 2);
-
         document.getElementById('menuBtn').onclick = showMenu;
         document.getElementById('startGameBtn').onclick = function() { hideMenu();
             resetGame(); };
@@ -1276,50 +1452,7 @@
         };
 
         // ============================================================
-        // 18. СЕНСОРНЫЕ КНОПКИ
-        // ============================================================
-        const touchState = { left: false, right: false, jump: false, attack: false, jumpPressed: false,
-            attackPressed: false };
-
-        function setupTouch(id, onStart, onEnd) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.ontouchstart = function(e) { e.preventDefault();
-                onStart(); };
-            el.ontouchend = function(e) { e.preventDefault();
-                onEnd(); };
-            el.ontouchcancel = function(e) { e.preventDefault();
-                onEnd(); };
-            el.onmousedown = function() { onStart(); };
-            el.onmouseup = function() { onEnd(); };
-            el.onmouseleave = function() { onEnd(); };
-        }
-
-        setupTouch('btnLeft', () => { touchState.left = true; }, () => { touchState.left = false; });
-        setupTouch('btnRight', () => { touchState.right = true; }, () => { touchState.right = false; });
-        setupTouch('btnJump',
-            () => { touchState.jump = true;
-                touchState.jumpPressed = true; },
-            () => { touchState.jump = false; }
-        );
-        setupTouch('btnAttack',
-            () => { touchState.attack = true;
-                touchState.attackPressed = true; },
-            () => { touchState.attack = false; }
-        );
-
-        document.getElementById('btnPotion1').ontouchstart = function(e) { e.preventDefault();
-            usePotion(player1, 0); };
-        document.getElementById('btnPotion1').onmousedown = function() { usePotion(player1, 0); };
-        document.getElementById('btnPotion2').ontouchstart = function(e) { e.preventDefault();
-            usePotion(player1, 1); };
-        document.getElementById('btnPotion2').onmousedown = function() { usePotion(player1, 1); };
-        document.getElementById('btnPotion3').ontouchstart = function(e) { e.preventDefault();
-            usePotion(player1, 2); };
-        document.getElementById('btnPotion3').onmousedown = function() { usePotion(player1, 2); };
-
-        // ============================================================
-        // 19. ГЕНЕРАЦИЯ УРОВНЕЙ
+        // 21. ГЕНЕРАЦИЯ УРОВНЕЙ
         // ============================================================
         let currentLevel = 1;
 
@@ -1490,7 +1623,7 @@
         let decorations = levelData.decorations;
 
         // ============================================================
-        // 20. ПЕРЕХОД УРОВНЯ
+        // 22. ПЕРЕХОД УРОВНЯ
         // ============================================================
         function nextLevel() {
             const diff = getDifficulty();
@@ -1562,7 +1695,7 @@
         }
 
         // ============================================================
-        // 21. ПЕРЕЗАПУСК
+        // 23. ПЕРЕЗАПУСК
         // ============================================================
         function resetGame() {
             currentLevel = 1;
@@ -1638,7 +1771,7 @@
         }
 
         // ============================================================
-        // 22. ОБНОВЛЕНИЕ ИГРОКА
+        // 24. ОБНОВЛЕНИЕ ИГРОКА
         // ============================================================
         function updatePlayer(player, isP1) {
             if (player.hp <= 0) return;
@@ -1671,6 +1804,7 @@
             let attackRequest = false;
             let jumpRequest = false;
 
+            // Управление с ПК (только для P1)
             if (isP1) {
                 if (keys['ArrowLeft']) moveX = -1;
                 if (keys['ArrowRight']) moveX = 1;
@@ -1683,12 +1817,19 @@
                 if (keys['w'] || keys['W']) jumpRequest = true;
             }
 
-            if (touchState.left) moveX = -1;
-            if (touchState.right) moveX = 1;
-            if (touchState.attackPressed) { attackRequest = true;
-                touchState.attackPressed = false; }
-            if (touchState.jumpPressed) { jumpRequest = true;
-                touchState.jumpPressed = false; }
+            // Мобильные кнопки ходьбы (только для P1)
+            if (isP1) {
+                if (touchState.walkLeft) moveX = -1;
+                if (touchState.walkRight) moveX = 1;
+            }
+
+            // Мобильные кнопки действий (только для P1)
+            if (isP1) {
+                if (touchState.jumpPressed) { jumpRequest = true;
+                    touchState.jumpPressed = false; }
+                if (touchState.attackPressed) { attackRequest = true;
+                    touchState.attackPressed = false; }
+            }
 
             if (attackRequest && player.attackCooldown <= 0 && !player.attacking) {
                 player.attacking = true;
@@ -1875,7 +2016,7 @@
         }
 
         // ============================================================
-        // 23. РИСОВАНИЕ ВОЛКА
+        // 25. РИСОВАНИЕ ВОЛКА
         // ============================================================
         function drawWolf(e) {
             ctx.save();
@@ -2028,7 +2169,7 @@
         }
 
         // ============================================================
-        // 24. РИСОВАНИЕ БОССА-ВОЛКА
+        // 26. РИСОВАНИЕ БОССА-ВОЛКА
         // ============================================================
         function drawAlphaWolf(b) {
             ctx.save();
@@ -2230,7 +2371,7 @@
         }
 
         // ============================================================
-        // 25. РИСОВАНИЕ ИГРОКА
+        // 27. РИСОВАНИЕ ИГРОКА
         // ============================================================
         function drawPlayer(player, isP1) {
             const p = player;
@@ -2414,7 +2555,7 @@
         }
 
         // ============================================================
-        // 26. ОБНОВЛЕНИЕ ИГРЫ
+        // 28. ОБНОВЛЕНИЕ ИГРЫ
         // ============================================================
         function update() {
             updatePlayer(player1, true);
@@ -2613,7 +2754,7 @@
         }
 
         // ============================================================
-        // 27. РИСОВАНИЕ
+        // 29. РИСОВАНИЕ
         // ============================================================
         function draw() {
             ctx.clearRect(0, 0, W, H);
@@ -3027,7 +3168,7 @@
         }
 
         // ============================================================
-        // 28. ИГРОВОЙ ЦИКЛ
+        // 30. ИГРОВОЙ ЦИКЛ
         // ============================================================
         function gameLoop() {
             update();
@@ -3036,7 +3177,7 @@
         }
 
         // ============================================================
-        // 29. ЗАПУСК
+        // 31. ЗАПУСК
         // ============================================================
         menuOverlay.classList.remove('hidden');
         if (savedStats) {
@@ -3049,7 +3190,9 @@
         updateMainUI();
         gameLoop();
 
-        console.log('🐺 LEGO Ведьмак - Охота на волков (горизонтальная версия) загружена!');
+        console.log('🎮 LEGO Ведьмак - Полноэкранный режим + кнопки ходьбы!');
+        console.log('📱 Нажмите ⛶ для переключения в полноэкранный режим');
+        console.log('🖥️ На ПК: стрелки + WASD');
     </script>
 </body>
 </html>
