@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LEGO Ведьмак - Полноэкранный режим</title>
+    <title>Ведьмак: Наследие</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,6 @@
             overflow: hidden;
             background: #0a0a1a;
             font-family: 'Courier New', monospace;
-            touch-action: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -40,7 +39,6 @@
             max-width: 100vw;
             max-height: 100vh;
             gap: 4px;
-            position: relative;
         }
         .canvas-wrapper {
             position: relative;
@@ -58,12 +56,9 @@
             image-rendering: pixelated;
             border-radius: 6px;
             border: 2px solid #4a9e6e;
-            touch-action: none;
-            background: #1a1a3e;
             aspect-ratio: 800 / 400;
+            background: #1a1a3e;
         }
-
-        /* МЕНЮ */
         .menu-overlay {
             position: absolute;
             top: 0;
@@ -84,7 +79,7 @@
             display: none;
         }
         .menu-title {
-            font-size: 22px;
+            font-size: 26px;
             color: #FFD700;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
             margin-bottom: 4px;
@@ -92,7 +87,7 @@
             text-align: center;
         }
         .menu-subtitle {
-            font-size: 11px;
+            font-size: 12px;
             color: #888;
             margin-bottom: 10px;
             text-align: center;
@@ -190,7 +185,6 @@
             color: #4a9e6e;
         }
 
-        /* UI */
         .ui {
             display: flex;
             flex-wrap: wrap;
@@ -236,8 +230,6 @@
             font-family: 'Courier New', monospace;
             font-size: 9px;
             transition: 0.3s;
-            touch-action: manipulation;
-            white-space: nowrap;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -255,12 +247,6 @@
         #fullscreenBtn {
             font-size: 14px;
             padding: 2px 8px;
-            border-color: #4a9e6e;
-            color: #4a9e6e;
-            background: rgba(74, 158, 110, 0.1);
-        }
-        #fullscreenBtn:active {
-            background: rgba(74, 158, 110, 0.25);
         }
         .level-display {
             background: rgba(15, 52, 96, 0.85);
@@ -286,7 +272,25 @@
             border: 1px solid #FF8A65;
         }
 
-        /* МОБИЛЬНОЕ УПРАВЛЕНИЕ */
+        .dialogue-box {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #FFD700;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+            z-index: 15;
+            text-align: center;
+            max-width: 80%;
+            pointer-events: none;
+            border: 1px solid #FFD700;
+            backdrop-filter: blur(4px);
+        }
+
         .mobile-controls {
             display: none;
             position: absolute;
@@ -325,15 +329,11 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
             transition: 0.1s;
         }
         .walk-btn:active {
             transform: scale(0.9);
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
         }
         .walk-btn .label {
             font-size: 7px;
@@ -366,16 +366,12 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
             backdrop-filter: blur(4px);
             transition: 0.1s;
         }
         .action-btn:active {
             transform: scale(0.9);
             background: rgba(255, 215, 0, 0.25);
-            border-color: #FFD700;
         }
         .action-btn.attack {
             border-color: rgba(255, 107, 107, 0.4);
@@ -384,7 +380,6 @@
         }
         .action-btn.attack:active {
             background: rgba(255, 107, 107, 0.25);
-            border-color: #FF6B6B;
         }
         .action-btn .label {
             font-size: 7px;
@@ -443,7 +438,6 @@
             z-index: 5;
         }
 
-        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
         @media (max-width: 768px) {
             .game-wrapper {
                 padding: 3px;
@@ -532,75 +526,13 @@
             .menu-stats {
                 font-size: 8px;
             }
-        }
-
-        @media (max-width: 500px) {
-            .game-wrapper {
-                padding: 2px;
-                gap: 2px;
-            }
-            .ui span {
-                font-size: 7px;
-                padding: 1px 3px;
-            }
-            .walk-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
-            }
-            .action-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-                border-width: 2px;
-            }
-            .action-btn.potion-btn {
-                width: 30px;
-                height: 30px;
+            .dialogue-box {
                 font-size: 12px;
-            }
-            .action-btn .label,
-            .walk-btn .label {
-                font-size: 5px;
-            }
-            .walk-controls {
-                padding: 4px 8px;
-                gap: 4px;
-            }
-            .menu-title {
-                font-size: 18px;
-            }
-            .mode-btn {
-                padding: 4px 6px;
-                font-size: 8px;
-                min-width: 35px;
-            }
-            .diff-btn {
-                padding: 3px 5px;
-                font-size: 8px;
-                min-width: 28px;
-            }
-            .menu-btn {
-                font-size: 11px;
-                padding: 4px 12px;
-            }
-            .level-display {
-                font-size: 7px;
-                padding: 1px 4px;
-            }
-            #restartBtn,
-            #menuBtn,
-            #fullscreenBtn {
-                font-size: 7px;
-                padding: 1px 5px;
-            }
-            #fullscreenBtn {
-                font-size: 10px;
-                padding: 1px 5px;
+                padding: 8px 16px;
+                bottom: 80px;
             }
         }
 
-        /* ГОРИЗОНТАЛЬНЫЙ РЕЖИМ */
         @media (orientation: landscape) and (max-height: 500px) {
             .game-wrapper {
                 flex-direction: row;
@@ -695,75 +627,10 @@
             .menu-stats {
                 font-size: 7px;
             }
-        }
-
-        @media (orientation: landscape) and (max-height: 400px) {
-            .game-wrapper {
-                padding: 2px;
-                gap: 2px;
-            }
-            .walk-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-            .action-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
-                border-width: 2px;
-            }
-            .action-btn.potion-btn {
-                width: 32px;
-                height: 32px;
+            .dialogue-box {
                 font-size: 12px;
-            }
-            .action-btn .label,
-            .walk-btn .label {
-                font-size: 6px;
-            }
-            .walk-controls {
-                padding: 4px 8px;
-                gap: 4px;
-            }
-            .ui span {
-                font-size: 7px;
-                padding: 1px 3px;
-            }
-            .level-display {
-                font-size: 7px;
-                padding: 1px 4px;
-            }
-            #restartBtn,
-            #menuBtn,
-            #fullscreenBtn {
-                font-size: 7px;
-                padding: 1px 5px;
-            }
-            #fullscreenBtn {
-                font-size: 12px;
-                padding: 1px 5px;
-            }
-            .menu-title {
-                font-size: 14px;
-            }
-            .menu-subtitle {
-                font-size: 8px;
-                margin-bottom: 4px;
-            }
-            .mode-btn,
-            .diff-btn {
-                font-size: 7px;
-                padding: 3px 5px;
-                min-width: 30px;
-            }
-            .menu-btn {
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-            .menu-stats {
-                font-size: 6px;
-                margin-top: 4px;
+                padding: 6px 14px;
+                bottom: 80px;
             }
         }
     </style>
@@ -773,6 +640,7 @@
     <div class="game-wrapper">
         <div class="canvas-wrapper">
             <canvas id="gameCanvas" width="800" height="400"></canvas>
+            <div class="dialogue-box" id="dialogueBox"></div>
             <div class="weather-indicator" id="weatherIcon">🌙</div>
 
             <!-- МОБИЛЬНОЕ УПРАВЛЕНИЕ -->
@@ -781,7 +649,6 @@
                     <div class="walk-btn" id="btnWalkLeft">◀<span class="label">влево</span></div>
                     <div class="walk-btn" id="btnWalkRight">▶<span class="label">вправо</span></div>
                 </div>
-
                 <div class="action-controls">
                     <div class="action-row">
                         <div class="action-btn attack" id="btnAttack">⚔️<span class="label">атака</span></div>
@@ -796,8 +663,8 @@
             </div>
 
             <div class="menu-overlay" id="menuOverlay">
-                <div class="menu-title">⚔️ LEGO <span style="color:#4a9e6e;">Ведьмак</span></div>
-                <div class="menu-subtitle">~ Охота на волков ~</div>
+                <div class="menu-title">⚔️ Ведьмак: <span style="color:#4a9e6e;">Наследие</span></div>
+                <div class="menu-subtitle">~ Охота на нечисть ~</div>
 
                 <div class="mode-section">
                     <div class="mode-label">─ РЕЖИМ ─</div>
@@ -841,7 +708,7 @@
                 <button class="menu-btn secondary" id="resetStatsBtn">🔄 Сбросить статистику</button>
 
                 <div class="menu-stats" id="menuStats">
-                    🏆 Лучший уровень: <span id="bestLevel">1</span> &nbsp;|&nbsp; 💀 Волков убито: <span id="totalKillsStat">0</span>
+                    🏆 Лучший уровень: <span id="bestLevel">1</span> &nbsp;|&nbsp; 💀 Убито: <span id="totalKillsStat">0</span>
                     &nbsp;|&nbsp; 🧱 Собрано: <span id="totalBricksStat">0</span>
                 </div>
             </div>
@@ -851,7 +718,7 @@
             <span id="p1HealthDisplay"><span class="player-tag p1">P1</span> ❤️ <span id="healthDisplay1">5</span></span>
             <span id="p2HealthDisplay" style="display:none;"><span class="player-tag p2">P2</span> ❤️ <span id="healthDisplay2">5</span></span>
             <span>🧱 <span id="brickDisplay">0</span></span>
-            <span>🐺 <span id="enemyDisplay">0</span></span>
+            <span>👹 <span id="enemyDisplay">0</span></span>
             <span>⭐ <span id="buffDisplay">0</span></span>
             <span class="level-display">🏰 <span id="levelDisplay">1</span></span>
             <button id="menuBtn">📋</button>
@@ -869,44 +736,20 @@
         // 1. ПОЛНОЭКРАННЫЙ РЕЖИМ
         // ============================================================
         const fullscreenBtn = document.getElementById('fullscreenBtn');
-
         function toggleFullscreen() {
+            const el = document.documentElement;
             if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                const el = document.documentElement;
-                if (el.requestFullscreen) {
-                    el.requestFullscreen().catch(() => {});
-                } else if (el.webkitRequestFullscreen) {
-                    el.webkitRequestFullscreen();
-                } else if (el.msRequestFullscreen) {
-                    el.msRequestFullscreen();
-                }
+                if (el.requestFullscreen) el.requestFullscreen();
+                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen().catch(() => {});
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
             }
         }
-
-        function updateFullscreenIcon() {
-            const isFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
-            fullscreenBtn.textContent = isFull ? '⛶' : '⛶';
-            fullscreenBtn.style.borderColor = isFull ? '#FFD700' : '#4a9e6e';
-            fullscreenBtn.style.color = isFull ? '#FFD700' : '#4a9e6e';
-        }
-
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
-        document.addEventListener('fullscreenchange', updateFullscreenIcon);
-        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
-
-        // Обновляем иконку при загрузке
-        updateFullscreenIcon();
+        fullscreenBtn.onclick = toggleFullscreen;
 
         // ============================================================
-        // 2. ИНИЦИАЛИЗАЦИЯ КАНВАСА
+        // 2. КАНВАС
         // ============================================================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -914,7 +757,25 @@
             H = 400;
 
         // ============================================================
-        // 3. СОСТОЯНИЕ КНОПОК (мобильные)
+        // 3. ДИАЛОГИ
+        // ============================================================
+        const dialogueBox = document.getElementById('dialogueBox');
+        const dialogues = [
+            { text: 'Тёмный лес полон волков и гарпий. Будь осторожен.', speaker: 'Голос' },
+            { text: 'Пустыня скрывает древние гробницы. Скелеты восстают.', speaker: 'Голос' },
+            { text: 'Замок принадлежит некроманту. Он призывает демонов.', speaker: 'Голос' },
+            { text: 'Ты прошёл все испытания. Тьма отступает.', speaker: 'Голос' }
+        ];
+
+        function showDialogue(text, speaker) {
+            dialogueBox.style.display = 'block';
+            dialogueBox.innerHTML = `<span style="color:#aaa;">${speaker}:</span> ${text}`;
+            clearTimeout(dialogueBox._timer);
+            dialogueBox._timer = setTimeout(() => { dialogueBox.style.display = 'none'; }, 3000);
+        }
+
+        // ============================================================
+        // 4. СОСТОЯНИЕ МОБИЛЬНЫХ КНОПОК
         // ============================================================
         const touchState = {
             walkLeft: false,
@@ -925,9 +786,6 @@
             attackPressed: false
         };
 
-        // ============================================================
-        // 4. НАСТРОЙКА МОБИЛЬНЫХ КНОПОК
-        // ============================================================
         function setupMobileButton(id, onStart, onEnd) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -942,17 +800,8 @@
             el.addEventListener('mouseleave', onEnd);
         }
 
-        // Кнопки ходьбы
-        setupMobileButton('btnWalkLeft',
-            () => { touchState.walkLeft = true; },
-            () => { touchState.walkLeft = false; }
-        );
-        setupMobileButton('btnWalkRight',
-            () => { touchState.walkRight = true; },
-            () => { touchState.walkRight = false; }
-        );
-
-        // Кнопки действий
+        setupMobileButton('btnWalkLeft', () => { touchState.walkLeft = true; }, () => { touchState.walkLeft = false; });
+        setupMobileButton('btnWalkRight', () => { touchState.walkRight = true; }, () => { touchState.walkRight = false; });
         setupMobileButton('btnJump',
             () => { touchState.jump = true;
                 touchState.jumpPressed = true; },
@@ -964,16 +813,15 @@
             () => { touchState.attack = false; }
         );
 
-        // Кнопки зелий
         document.getElementById('btnPotion1').addEventListener('touchstart', (e) => { e.preventDefault();
             usePotion(player1, 0); }, { passive: false });
-        document.getElementById('btnPotion1').addEventListener('mousedown', () => usePotion(player1, 0));
+        document.getElementById('btnPotion1').onmousedown = () => usePotion(player1, 0);
         document.getElementById('btnPotion2').addEventListener('touchstart', (e) => { e.preventDefault();
             usePotion(player1, 1); }, { passive: false });
-        document.getElementById('btnPotion2').addEventListener('mousedown', () => usePotion(player1, 1));
+        document.getElementById('btnPotion2').onmousedown = () => usePotion(player1, 1);
         document.getElementById('btnPotion3').addEventListener('touchstart', (e) => { e.preventDefault();
             usePotion(player1, 2); }, { passive: false });
-        document.getElementById('btnPotion3').addEventListener('mousedown', () => usePotion(player1, 2));
+        document.getElementById('btnPotion3').onmousedown = () => usePotion(player1, 2);
 
         // ============================================================
         // 5. UI ЭЛЕМЕНТЫ
@@ -994,11 +842,10 @@
         // 6. РЕЖИМ ИГРЫ
         // ============================================================
         let gameMode = 'single';
-        const modeBtns = document.querySelectorAll('.mode-btn');
-        modeBtns.forEach(btn => {
+        document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
-                modeBtns.forEach(b => b.classList.remove('selected'));
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
                 gameMode = this.dataset.mode;
             };
@@ -1008,11 +855,10 @@
         // 7. СЛОЖНОСТЬ
         // ============================================================
         let currentDifficulty = 'normal';
-        const diffBtns = document.querySelectorAll('.diff-btn');
-        diffBtns.forEach(btn => {
+        document.querySelectorAll('.diff-btn').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
-                diffBtns.forEach(b => b.classList.remove('selected'));
+                document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
                 currentDifficulty = this.dataset.diff;
             };
@@ -1042,19 +888,19 @@
                 difficulty: currentDifficulty,
                 mode: gameMode
             };
-            try { localStorage.setItem('lego_witcher_fullscreen', JSON.stringify(stats)); } catch (e) {}
+            try { localStorage.setItem('witcher_legacy', JSON.stringify(stats)); } catch (e) {}
         }
 
         function loadStats() {
             try {
-                const data = localStorage.getItem('lego_witcher_fullscreen');
+                const data = localStorage.getItem('witcher_legacy');
                 if (data) return JSON.parse(data);
             } catch (e) {}
             return null;
         }
 
         function resetStats() {
-            localStorage.removeItem('lego_witcher_fullscreen');
+            localStorage.removeItem('witcher_legacy');
             player1.totalBestLevel = 1;
             player1.totalKills = 0;
             player1.totalBricks = 0;
@@ -1164,7 +1010,7 @@
         }
 
         // ============================================================
-        // 10. КЛАВИШИ (для ПК)
+        // 10. КЛАВИШИ (ПК)
         // ============================================================
         const keys = {};
         document.addEventListener('keydown', (e) => {
@@ -1201,7 +1047,6 @@
                     showFloatingText('🛡️ НЕУЯЗВИМОСТЬ!', player.x, player.y - 30, '#00BCD4', player);
                     break;
             }
-            updatePotionUI();
         }
 
         function applyBuff(player, type) {
@@ -1266,7 +1111,6 @@
         }
 
         function spawnMagicParticles(x, y, color, count) {
-            count = count || 25;
             for (let i = 0; i < count; i++) {
                 const angle = Math.random() * Math.PI * 2;
                 particles.push({
@@ -1370,7 +1214,7 @@
         const FLOOR_Y = 360;
 
         // ============================================================
-        // 16. ЭЛИКСИРЫ НА ПОЛУ
+        // 16. ДРОП ПОТИЙ
         // ============================================================
         let droppedPotions = [];
 
@@ -1388,12 +1232,8 @@
         }
 
         // ============================================================
-        // 18. UI ОБНОВЛЕНИЕ
+        // 18. UI
         // ============================================================
-        function updatePotionUI() {
-            // Показываем только P1 зелья в UI
-        }
-
         function updateBuffUI() {
             const total = player1.buffCount + (gameMode === 'coop' ? player2.buffCount : 0);
             buffSpan.textContent = total;
@@ -1415,7 +1255,7 @@
             if (gameMode === 'coop') {
                 p2HealthDisplay.style.display = 'inline-block';
                 healthSpan2.textContent = player2.hp;
-                controlsHint.textContent = '🎮 Кнопки ходьбы слева | Действия справа | P2: WASD';
+                controlsHint.textContent = '🎮 Кнопки ходьбы | Действия | P2: WASD';
             } else {
                 p2HealthDisplay.style.display = 'none';
                 controlsHint.textContent = '🎮 Кнопки ходьбы слева | Действия справа';
@@ -1433,40 +1273,50 @@
         function showMenu() {
             menuOverlay.classList.remove('hidden');
             updateMenuStats();
-            modeBtns.forEach(b => b.classList.toggle('selected', b.dataset.mode === gameMode));
-            diffBtns.forEach(b => b.classList.toggle('selected', b.dataset.diff === currentDifficulty));
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('selected', b.dataset.mode === gameMode));
+            document.querySelectorAll('.diff-btn').forEach(b => b.classList.toggle('selected', b.dataset.diff ===
+            currentDifficulty));
         }
 
         function hideMenu() { menuOverlay.classList.add('hidden'); }
 
-        // ============================================================
-        // 20. КНОПКИ
-        // ============================================================
         document.getElementById('menuBtn').onclick = showMenu;
         document.getElementById('startGameBtn').onclick = function() { hideMenu();
             resetGame(); };
         document.getElementById('restartBtn').onclick = resetGame;
         document.getElementById('resetStatsBtn').onclick = function() {
-            if (confirm('Сбросить всю статистику?')) { resetStats();
+            if (confirm('Сбросить статистику?')) { resetStats();
                 updateMenuStats(); }
         };
 
         // ============================================================
-        // 21. ГЕНЕРАЦИЯ УРОВНЕЙ
+        // 20. ГЕНЕРАЦИЯ УРОВНЯ
         // ============================================================
         let currentLevel = 1;
+
+        // Биомы
+        const BIOMES = [
+            { name: 'Тёмный лес', bg: '#1a2a1a', platform: '#3a5a3a', decor: 'trees' },
+            { name: 'Пустыня', bg: '#2a1a0a', platform: '#8a7a5a', decor: 'cacti' },
+            { name: 'Замок', bg: '#1a1a2e', platform: '#4a4a6a', decor: 'castles' }
+        ];
+
+        // Типы врагов
+        const ENEMY_TYPES = ['wolf', 'harpy', 'skeleton', 'necromancer'];
 
         function generateLevel(level) {
             const diff = getDifficulty();
             const isCoop = gameMode === 'coop';
+            const biome = BIOMES[(level - 1) % BIOMES.length];
             const platforms = [{ x: 0, y: 360, w: 800, h: 20 }];
             const bricks = [],
                 enemies = [],
                 buffs = [],
                 pits = [],
                 decorations = [];
-            const enemyCount = (isCoop ? 3 : 2) + Math.floor(level * 0.8);
-            const brickCount = (isCoop ? 7 : 5) + level * 2;
+
+            const enemyCount = (isCoop ? 4 : 2) + Math.floor(level * 0.8);
+            const brickCount = (isCoop ? 8 : 5) + level * 2;
             const buffCount = Math.min(3 + level, 5);
             const pitCount = Math.min(1 + Math.floor(level / 2), 3);
 
@@ -1493,15 +1343,17 @@
                 if (x < 30) x = 30;
                 if (x > 770) x = 770;
                 const hp = Math.ceil((1 + Math.floor(level / 3)) * diff.enemyHP);
+                const type = ENEMY_TYPES[i % ENEMY_TYPES.length];
                 enemies.push({
                     x: x,
                     y: pos.y - 30,
-                    w: 30,
-                    h: 28,
+                    w: type === 'harpy' ? 34 : type === 'skeleton' ? 28 : 30,
+                    h: type === 'harpy' ? 32 : type === 'skeleton' ? 34 : 28,
                     hp: hp,
                     maxHp: hp,
-                    speed: diff.enemySpeed + level * 0.04,
+                    speed: diff.enemySpeed + level * 0.04 + (type === 'harpy' ? 0.2 : 0),
                     dir: i % 2 === 0 ? 1 : -1,
+                    type: type,
                     hitTimer: 0,
                     animFrame: 0,
                     animTimer: 0,
@@ -1510,8 +1362,9 @@
                     hurtTimer: 0,
                     legPhase: Math.random() * Math.PI * 2,
                     earAngle: 0,
-                    howlTimer: Math.random() * 200,
-                    isHowling: false
+                    spellTimer: 0,
+                    isCasting: false,
+                    isMinion: false
                 });
             }
 
@@ -1578,7 +1431,7 @@
 
             let boss = null;
             if (level >= 2) {
-                const bossHp = Math.ceil((8 + level * 2) * diff.bossHP / 10);
+                const bossHp = Math.ceil((10 + level * 3) * diff.bossHP / 10);
                 boss = {
                     x: 720,
                     y: 360 - 60,
@@ -1597,20 +1450,18 @@
                     animTimer: 0,
                     pattern: 0,
                     patternTimer: 0,
-                    jumpTimer: 0,
-                    isJumping: false,
-                    jumpCooldown: 0,
                     vy: 0,
                     onGround: false,
                     eyeGlow: 0,
-                    swordGlow: 0,
                     capeWave: 0,
                     hurtTimer: 0,
-                    isAlpha: true,
-                    maneColor: '#FF6B00'
+                    phase: 1,
+                    phase2Triggered: false,
+                    attackCooldown: 30,
+                    minionSpawnTimer: 0
                 };
             }
-            return { platforms, bricks, enemies, buffs, pits, boss, decorations };
+            return { platforms, bricks, enemies, buffs, pits, boss, decorations, biome };
         }
 
         let levelData = generateLevel(1);
@@ -1621,9 +1472,10 @@
         let pits = levelData.pits;
         let boss = levelData.boss;
         let decorations = levelData.decorations;
+        let currentBiome = levelData.biome;
 
         // ============================================================
-        // 22. ПЕРЕХОД УРОВНЯ
+        // 21. ПЕРЕХОД УРОВНЯ
         // ============================================================
         function nextLevel() {
             const diff = getDifficulty();
@@ -1640,6 +1492,11 @@
             if (currentLevel > player1.totalBestLevel) { player1.totalBestLevel = currentLevel;
                 saveStats();
                 updateMenuStats(); }
+
+            // Показываем диалог перед уровнем
+            const dialogIndex = (currentLevel - 1) % dialogues.length;
+            showDialogue(dialogues[dialogIndex].text, dialogues[dialogIndex].speaker);
+
             const newData = generateLevel(currentLevel);
             platforms = newData.platforms;
             bricks = newData.bricks;
@@ -1648,6 +1505,7 @@
             pits = newData.pits;
             boss = newData.boss;
             decorations = newData.decorations;
+            currentBiome = newData.biome;
 
             player1.x = 80;
             player1.y = 300;
@@ -1688,14 +1546,14 @@
 
             updateLevelUI();
             updateMainUI();
-            showFloatingText(`🏰 УРОВЕНЬ ${currentLevel}!`, W / 2 - 80, 50, '#FFD700');
+            showFloatingText(`🏰 УРОВЕНЬ ${currentLevel} — ${currentBiome.name}`, W / 2 - 80, 50, '#FFD700');
             spawnMagicParticles(W / 2, 50, '#FFD700', 30);
             saveStats();
             updateMenuStats();
         }
 
         // ============================================================
-        // 23. ПЕРЕЗАПУСК
+        // 22. ПЕРЕЗАПУСК
         // ============================================================
         function resetGame() {
             currentLevel = 1;
@@ -1707,6 +1565,7 @@
             pits = newData.pits;
             boss = newData.boss;
             decorations = newData.decorations;
+            currentBiome = newData.biome;
 
             player1.x = 80;
             player1.y = 300;
@@ -1771,7 +1630,7 @@
         }
 
         // ============================================================
-        // 24. ОБНОВЛЕНИЕ ИГРОКА
+        // 23. ОБНОВЛЕНИЕ ИГРОКА
         // ============================================================
         function updatePlayer(player, isP1) {
             if (player.hp <= 0) return;
@@ -1804,7 +1663,6 @@
             let attackRequest = false;
             let jumpRequest = false;
 
-            // Управление с ПК (только для P1)
             if (isP1) {
                 if (keys['ArrowLeft']) moveX = -1;
                 if (keys['ArrowRight']) moveX = 1;
@@ -1817,14 +1675,9 @@
                 if (keys['w'] || keys['W']) jumpRequest = true;
             }
 
-            // Мобильные кнопки ходьбы (только для P1)
             if (isP1) {
                 if (touchState.walkLeft) moveX = -1;
                 if (touchState.walkRight) moveX = 1;
-            }
-
-            // Мобильные кнопки действий (только для P1)
-            if (isP1) {
                 if (touchState.jumpPressed) { jumpRequest = true;
                     touchState.jumpPressed = false; }
                 if (touchState.attackPressed) { attackRequest = true;
@@ -1904,6 +1757,7 @@
             if (player.y > H + 50) { player.hp = 0;
                 spawnDeathParticles(player.x + player.w / 2, player.y + player.h / 2); }
 
+            // Сбор предметов
             for (let b of bricks) {
                 if (!b.collected && rectCollide(player, b)) {
                     b.collected = true;
@@ -1930,10 +1784,10 @@
                     const colors = ['#4CAF50', '#FF6B00', '#00BCD4'];
                     spawnMagicParticles(dp.x + dp.w / 2, dp.y + dp.h / 2, colors[dp.type], 15);
                     showFloatingText('🧪 ' + names[dp.type], dp.x, dp.y - 20, colors[dp.type], player);
-                    updatePotionUI();
                 }
             }
 
+            // Враги
             const diff = getDifficulty();
             for (let e of enemies) {
                 if (e.hp <= 0) continue;
@@ -1947,13 +1801,7 @@
                 e.earAngle = Math.sin(e.tailWag * 0.5) * 0.3;
                 if (e.hurtTimer > 0) e.hurtTimer--;
 
-                e.howlTimer++;
-                if (e.howlTimer > 200 && Math.random() < 0.005) {
-                    e.isHowling = true;
-                    e.howlTimer = 0;
-                    setTimeout(() => { if (e) e.isHowling = false; }, 500);
-                }
-
+                // Движение врагов
                 e.x += e.speed * e.dir;
                 if (e.x < 0) { e.x = 0;
                     e.dir *= -1; }
@@ -1968,6 +1816,7 @@
                 if (!onPlat && e.y < FLOOR_Y) e.y += 1;
                 if (e.y >= FLOOR_Y) e.y = FLOOR_Y - e.h;
 
+                // Урон от врага
                 let damageTaken = diff.enemyDamage || 1;
                 if (player.buffs.shield) damageTaken = 0;
 
@@ -1981,6 +1830,7 @@
                     if (player.hp <= 0) spawnDeathParticles(player.x + player.w / 2, player.y + player.h / 2);
                 }
 
+                // Атака игрока
                 if (player.attacking && player.attackTimer > 8) {
                     let attackBox = {
                         x: player.facing > 0 ? player.x + player.w : player.x - 35,
@@ -2002,7 +1852,7 @@
                             player.totalKills++;
                             if (Math.random() < (diff.potionDrop || 0.4)) dropPotion(e.x, e.y);
                             spawnDeathParticles(e.x + e.w / 2, e.y + e.h / 2);
-                            showFloatingText('🐺 +1', e.x, e.y - 20, '#FF6B6B', player);
+                            showFloatingText('💀 +1', e.x, e.y - 20, '#FF6B6B', player);
                             saveStats();
                             updateMenuStats();
                         } else {
@@ -2016,17 +1866,606 @@
         }
 
         // ============================================================
-        // 25. РИСОВАНИЕ ВОЛКА
+        // 24. ОБНОВЛЕНИЕ БОССА (в update)
         // ============================================================
-        function drawWolf(e) {
-            ctx.save();
+        function updateBossLogic() {
+            if (!boss || !boss.active || boss.hp <= 0) return;
+            const diff = getDifficulty();
+            const b = boss;
 
+            // Анимация
+            b.animTimer++;
+            if (b.animTimer > 8) { b.animTimer = 0;
+                b.frame = (b.frame + 1) % 4; }
+            b.capeWave += 0.05;
+            b.eyeGlow = Math.sin(b.capeWave * 0.7) * 0.3 + 0.7;
+            if (b.hurtTimer > 0) b.hurtTimer--;
+
+            // Фаза 2
+            if (b.hp <= b.maxHp * 0.5 && !b.phase2Triggered) {
+                b.phase = 2;
+                b.phase2Triggered = true;
+                b.speed *= 1.3;
+                b.attackCooldown = 20;
+                showDialogue('Демон впадает в ярость!', 'Босс');
+                // Призыв миньонов
+                for (let i = 0; i < 2; i++) {
+                    enemies.push({
+                        x: 100 + i * 300,
+                        y: 330,
+                        w: 28,
+                        h: 34,
+                        hp: 2,
+                        maxHp: 2,
+                        speed: 1.0,
+                        dir: 1,
+                        type: 'skeleton',
+                        hitTimer: 0,
+                        animFrame: 0,
+                        animTimer: 0,
+                        eyeGlow: 1,
+                        hurtTimer: 0,
+                        legPhase: 0,
+                        isMinion: true
+                    });
+                }
+            }
+
+            // Движение
+            if (!b.stunned) {
+                b.x += b.speed * b.dir;
+                if (b.x < 100 || b.x > W - b.w - 50) b.dir *= -1;
+                if (b.x < 50) b.x = 50;
+                if (b.x > W - b.w - 50) b.x = W - b.w - 50;
+                // Прыжок (редко)
+                if (Math.random() < 0.01 && b.onGround) {
+                    b.vy = -9;
+                    b.onGround = false;
+                }
+            }
+
+            // Гравитация
+            if (!b.onGround) { b.vy += GRAVITY; if (b.vy > 12) b.vy = 12; }
+            b.y += b.vy;
+            b.onGround = false;
+            for (let p of platforms) {
+                if (rectCollide(b, p)) {
+                    if (b.vy > 0 && b.y + b.h - b.vy <= p.y + 2) {
+                        b.y = p.y - b.h;
+                        b.vy = 0;
+                        b.onGround = true;
+                    } else if (b.vy < 0 && b.y - b.vy >= p.y + p.h - 2) {
+                        b.y = p.y + p.h;
+                        b.vy = 0;
+                    }
+                }
+            }
+            if (b.y > H + 50) { b.y = FLOOR_Y - b.h;
+                b.vy = 0;
+                b.onGround = true; }
+
+            // Атака босса
+            if (!b.stunned) {
+                b.attackCooldown--;
+                if (b.attackCooldown <= 0) {
+                    // Атакует ближайшего игрока
+                    const players = [player1];
+                    if (gameMode === 'coop') players.push(player2);
+                    let target = players[0];
+                    let minDist = Infinity;
+                    for (let p of players) {
+                        if (p.hp <= 0) continue;
+                        const dist = Math.abs(b.x - p.x);
+                        if (dist < minDist) { minDist = dist;
+                            target = p; }
+                    }
+                    if (target && Math.abs(b.x - target.x) < 130 && b.onGround) {
+                        b.attackCooldown = 40;
+                        let damageTaken = diff.enemyDamage * 2 || 2;
+                        if (target.buffs.shield) damageTaken = Math.ceil(damageTaken / 2);
+                        if (target.shieldActive <= 0 && target.invincible <= 0) {
+                            target.hp -= damageTaken;
+                            target.invincible = 40;
+                            target.hurtTimer = 10;
+                            spawnHitParticles(target.x + target.w / 2, target.y + target.h / 2, '#FF1744');
+                            if (target.x < b.x) target.x = b.x - target.w - 10;
+                            else target.x = b.x + b.w + 10;
+                            showFloatingText('💥 -' + damageTaken + ' HP', target.x, target.y - 30, '#FF1744', target);
+                            if (target.hp <= 0) spawnDeathParticles(target.x + target.w / 2, target.y + target.h / 2);
+                        }
+                        b.hitTimer = 10;
+                        spawnParticles(b.x + b.w / 2, b.y + b.h / 2, 12, '#FF1744', 4, 20, 3);
+                    }
+                }
+            }
+
+            if (b.stunned) { b.stunTimer--; if (b.stunTimer <= 0) b.stunned = false; }
+
+            // Атака игроков по боссу
+            const players2 = [player1];
+            if (gameMode === 'coop') players2.push(player2);
+            for (let p of players2) {
+                if (p.hp <= 0) continue;
+                if (p.attacking && p.attackTimer > 8) {
+                    let attackBox = {
+                        x: p.facing > 0 ? p.x + p.w : p.x - 35,
+                        y: p.y - 5,
+                        w: 35,
+                        h: p.h + 10
+                    };
+                    if (rectCollide(attackBox, b)) {
+                        let damage = p.damageMultiplier * (diff.playerDamage || 1);
+                        if (p.buffs.extraDamage) damage += 1;
+                        damage = Math.ceil(damage);
+                        b.hp -= damage;
+                        b.hitTimer = 10;
+                        b.hurtTimer = 10;
+                        b.stunned = true;
+                        b.stunTimer = 25;
+                        spawnHitParticles(b.x + b.w / 2, b.y + b.h / 2, p.color);
+                        b.x += p.facing * 30;
+                        showFloatingText('⚡ -' + damage, b.x + b.w / 2, b.y - 30, '#FFD700', p);
+                        if (b.hp <= 0) {
+                            p.kills++;
+                            p.totalKills++;
+                            dropPotion(b.x, b.y);
+                            dropPotion(b.x + 20, b.y);
+                            spawnDeathParticles(b.x + b.w / 2, b.y + b.h / 2);
+                            spawnMagicParticles(W / 2, 50, '#FFD700', 50);
+                            showFloatingText('🏆 ДЕМОН ПОВЕРЖЕН!', W / 2 - 80, 50, '#FFD700', 24);
+                            saveStats();
+                            updateMenuStats();
+                        }
+                    }
+                }
+            }
+            if (b.hitTimer > 0) b.hitTimer--;
+        }
+
+        // ============================================================
+        // 25. ОБНОВЛЕНИЕ
+        // ============================================================
+        function update() {
+            updatePlayer(player1, true);
+            if (gameMode === 'coop') {
+                updatePlayer(player2, false);
+            }
+
+            const diff = getDifficulty();
+            const totalKills = player1.kills + (gameMode === 'coop' ? player2.kills : 0);
+
+            // Активация босса
+            if (boss && totalKills >= 3 && !boss.active) {
+                boss.active = true;
+                boss.x = 720;
+                boss.y = FLOOR_Y - boss.h;
+                boss.onGround = true;
+                spawnMagicParticles(boss.x + boss.w / 2, boss.y + boss.h / 2, '#FF1744', 40);
+                showFloatingText('🔥 ДЕМОН ПОЯВИЛСЯ!', W / 2 - 60, 50, '#FF1744', 24);
+            }
+
+            if (boss && boss.active && boss.hp > 0) {
+                updateBossLogic();
+            }
+
+            // Проверка победы
+            const allCollected = bricks.every(b => b.collected);
+            const allEnemiesDead = enemies.every(e => e.hp <= 0);
+            const bossDefeated = !boss || boss.hp <= 0 || !boss.active;
+            const playersAlive = player1.hp > 0 && (gameMode === 'coop' ? player2.hp > 0 : true);
+
+            if (allCollected && allEnemiesDead && bossDefeated && playersAlive) {
+                const maxLvl = diff.maxLevel || 5;
+                if (currentLevel < maxLvl) {
+                    nextLevel();
+                }
+            }
+
+            // Анимация предметов
+            const time = Date.now() * 0.001;
+            for (let bf of buffItems) { bf.bobTimer += 0.05;
+                bf.rot += 0.02;
+                bf.pulsePhase += 0.05; }
+            for (let dp of droppedPotions) { dp.bobTimer += 0.05;
+                dp.rot += 0.03;
+                dp.glowPhase += 0.04; }
+            for (let b of bricks) { b.rot += 0.02;
+                b.glowPhase += 0.04; }
+
+            for (let d of decorations) {
+                if (d.type === 'firefly') {
+                    d.x += Math.sin(d.phase + time * d.speed) * 0.3;
+                    d.y += Math.cos(d.phase * 0.7 + time * d.speed * 0.8) * 0.2;
+                    d.phase += 0.02;
+                }
+            }
+
+            // Частицы
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity || 0.05;
+                p.life--;
+                p.rotation += p.rotSpeed || 0;
+                if (p.trail) {
+                    p.trail.push({ x: p.x, y: p.y });
+                    if (p.trail.length > 5) p.trail.shift();
+                }
+            }
+            particles = particles.filter(p => p.life > 0);
+
+            updateWeather();
+
+            for (let ft of floatingTexts) { ft.y += ft.vy;
+                ft.life--; }
+            floatingTexts = floatingTexts.filter(ft => ft.life > 0);
+
+            updateMainUI();
+            updateMenuStats();
+        }
+
+        // ============================================================
+        // 26. РИСОВАНИЕ
+        // ============================================================
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            const diff = getDifficulty();
+            const weather = diff.weather || 'clear';
+
+            // Фон с учётом биома
+            let bgColor = currentBiome ? currentBiome.bg : '#1a1a3e';
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, W, H);
+
+            // Звёзды (только для леса и замка)
+            if (currentBiome && currentBiome.name !== 'Пустыня') {
+                const starCount = 25 + currentLevel * 5;
+                for (let i = 0; i < starCount; i++) {
+                    let sx = (i * 37 + 13 * currentLevel) % W;
+                    let sy = (i * 53 + 7 * currentLevel) % 150;
+                    let brightness = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(i * 1.7 + Date.now() * 0.001));
+                    ctx.fillStyle = `rgba(255,255,255,${brightness * 0.6})`;
+                    const size = 1 + Math.sin(i * 2.3) * 0.5;
+                    ctx.fillRect(sx, sy, size, size);
+                }
+            }
+
+            // Месяц или солнце
+            ctx.save();
+            const moonX = 700;
+            const moonY = 50;
+            if (currentBiome && currentBiome.name === 'Пустыня') {
+                ctx.fillStyle = '#FFD700';
+                ctx.shadowColor = '#FFD700';
+                ctx.shadowBlur = 30;
+                ctx.beginPath();
+                ctx.arc(moonX, moonY, 25, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            } else {
+                ctx.fillStyle = '#FFD700';
+                ctx.shadowColor = '#FFD700';
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(moonX, moonY, 25, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = 'rgba(200,170,50,0.3)';
+                ctx.beginPath();
+                ctx.arc(moonX - 8, moonY - 5, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(moonX + 10, moonY + 8, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(moonX + 5, moonY - 10, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // Платформы с цветом биома
+            for (let p of platforms) {
+                const platColor = currentBiome ? currentBiome.platform : '#4a4a6a';
+                ctx.fillStyle = platColor;
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 3;
+                ctx.fillRect(p.x, p.y, p.w, p.h);
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.fillStyle = '#3A3A4A';
+                ctx.fillRect(p.x, p.y, p.w, 3);
+                for (let i = 0; i < p.w; i += 12) {
+                    ctx.fillStyle = '#5A5A6A';
+                    ctx.fillRect(p.x + i, p.y + 4, 4, 3);
+                    ctx.fillRect(p.x + i + 6, p.y + 8, 4, 3);
+                }
+            }
+
+            // Декор биома
+            // (здесь можно добавить деревья, кактусы, башни, но для краткости оставляем как есть)
+
+            // Ямы
+            for (let pit of pits) {
+                const glow = Math.sin(Date.now() * 0.002 + pit.x) * 0.1 + 0.4;
+                ctx.fillStyle = `rgba(10,10,26,${0.7 + glow * 0.3})`;
+                ctx.fillRect(pit.x, pit.y + 5, pit.w, pit.h + 10);
+                ctx.fillStyle = `rgba(26,26,46,${0.5 + glow * 0.5})`;
+                ctx.fillRect(pit.x + 2, pit.y + 10, pit.w - 4, pit.h);
+            }
+
+            // Кирпичики
+            for (let b of bricks) {
+                if (b.collected) continue;
+                const bob = Math.sin(b.glowPhase) * 2;
+                const glow = Math.sin(b.glowPhase) * 0.2 + 0.8;
+                ctx.save();
+                ctx.translate(b.x + b.w / 2, b.y + b.h / 2 + bob);
+                ctx.rotate(b.rot);
+                ctx.fillStyle = `rgb(${255 * glow}, ${215 * glow}, ${50 * glow})`;
+                ctx.shadowColor = '#FFD700';
+                ctx.shadowBlur = 8;
+                ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = `rgba(200,180,40,0.5)`;
+                ctx.fillRect(-b.w / 2 + 2, -b.h / 2 + 2, 3, 3);
+                ctx.fillRect(b.w / 2 - 5, -b.h / 2 + 2, 3, 3);
+                ctx.fillRect(-b.w / 2 + 2, b.h / 2 - 5, 3, 3);
+                ctx.fillRect(b.w / 2 - 5, b.h / 2 - 5, 3, 3);
+                ctx.restore();
+            }
+
+            // Баффы
+            const buffColors = { speed: '#00E5FF', doubleJump: '#FF6B6B', regen: '#4CAF50', extraDamage: '#FFD700',
+                shield: '#2196F3' };
+            const buffSymbols = { speed: '💨', doubleJump: '🦘', regen: '💚', extraDamage: '⚡', shield: '🛡️' };
+            for (let bf of buffItems) {
+                if (bf.collected) continue;
+                const bob = Math.sin(bf.bobTimer) * 3;
+                const pulse = Math.sin(bf.pulsePhase) * 0.2 + 0.8;
+                const color = buffColors[bf.type] || '#FFD700';
+                ctx.save();
+                ctx.translate(bf.x + bf.w / 2, bf.y + bf.h / 2 + bob);
+                ctx.rotate(bf.rot);
+                const buffGlow = ctx.createRadialGradient(0, 0, 2, 0, 0, 20);
+                buffGlow.addColorStop(0, `${color}${Math.floor(40 * pulse).toString(16).padStart(2, '0')}`);
+                buffGlow.addColorStop(1, `${color}00`);
+                ctx.fillStyle = buffGlow;
+                ctx.beginPath();
+                ctx.arc(0, 0, 20, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = `rgba(255,255,255,${0.1 * pulse})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.fillStyle = color;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(0, 0, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#1a1a2e';
+                ctx.beginPath();
+                ctx.arc(0, 0, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = '12px monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#fff';
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = 4;
+                ctx.fillText(buffSymbols[bf.type] || '⭐', 0, 1);
+                ctx.shadowBlur = 0;
+                ctx.restore();
+            }
+
+            // Эликсиры на полу
+            const potionColors = ['#4CAF50', '#FF6B00', '#9C27B0'];
+            const potionSymbols = ['❤️', '⚔️', '🛡️'];
+            for (let dp of droppedPotions) {
+                if (dp.collected) continue;
+                const bob = Math.sin(dp.bobTimer) * 2;
+                const glow = Math.sin(dp.glowPhase) * 0.2 + 0.8;
+                ctx.save();
+                ctx.translate(dp.x + dp.w / 2, dp.y + dp.h / 2 + bob);
+                ctx.rotate(dp.rot);
+                const potGlow = ctx.createRadialGradient(0, 0, 2, 0, 0, 15);
+                potGlow.addColorStop(0, `${potionColors[dp.type]}${Math.floor(30 * glow).toString(16).padStart(2, '0')}`);
+                potGlow.addColorStop(1, `${potionColors[dp.type]}00`);
+                ctx.fillStyle = potGlow;
+                ctx.beginPath();
+                ctx.arc(0, 0, 15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = potionColors[dp.type];
+                ctx.shadowColor = potionColors[dp.type];
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.roundRect(-dp.w / 2, -dp.h / 2, dp.w, dp.h, 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = `rgba(255,255,255,0.2)`;
+                ctx.beginPath();
+                ctx.roundRect(-dp.w / 2 + 2, -dp.h / 2 + 2, 3, 4, 1);
+                ctx.fill();
+                ctx.font = '9px monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#fff';
+                ctx.fillText(potionSymbols[dp.type], 0, 1);
+                ctx.restore();
+            }
+
+            // Рисуем врагов
+            for (let e of enemies) {
+                if (e.hp <= 0) continue;
+                drawEnemy(e);
+            }
+
+            // Рисуем босса
+            if (boss && boss.active && boss.hp > 0) {
+                drawBoss(boss);
+            }
+
+            // Рисуем игроков
+            drawPlayer(player1, true);
+            if (gameMode === 'coop') {
+                drawPlayer(player2, false);
+            }
+
+            // Частицы
+            for (let p of particles) {
+                const alpha = p.life / (p.maxLife || 30);
+                ctx.globalAlpha = alpha;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation || 0);
+                ctx.fillStyle = p.color || '#FFFFFF';
+                ctx.shadowColor = p.color || '#FFFFFF';
+                ctx.shadowBlur = 8;
+                if (p.trail && p.trail.length > 1) {
+                    for (let i = 0; i < p.trail.length - 1; i++) {
+                        const tAlpha = (i / p.trail.length) * alpha * 0.5;
+                        ctx.globalAlpha = tAlpha;
+                        ctx.fillStyle = p.color || '#FFFFFF';
+                        ctx.beginPath();
+                        ctx.arc(p.trail[i].x - p.x, p.trail[i].y - p.y, p.size * (i / p.trail.length), 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.globalAlpha = alpha;
+                }
+                ctx.beginPath();
+                ctx.arc(0, 0, p.size || 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.restore();
+            }
+            ctx.globalAlpha = 1;
+
+            // Текст
+            for (let ft of floatingTexts) {
+                const alpha = ft.life / 60;
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = ft.color;
+                ctx.font = `bold ${ft.size || 16}px monospace`;
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'rgba(0,0,0,0.9)';
+                ctx.shadowBlur = 8;
+                ctx.fillText(ft.text, ft.x, ft.y);
+                ctx.shadowBlur = 0;
+                ctx.textAlign = 'left';
+            }
+            ctx.globalAlpha = 1;
+
+            // Подсказки
+            const totalKills = player1.kills + (gameMode === 'coop' ? player2.kills : 0);
+            if (totalKills >= 3 && boss && !boss.active) {
+                ctx.fillStyle = 'rgba(255,107,0,0.8)';
+                ctx.font = '18px monospace';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 8;
+                ctx.fillText(`🔥 ДЕМОН УРОВНЯ ${currentLevel}!`, W / 2, 35);
+                ctx.shadowBlur = 0;
+                ctx.textAlign = 'left';
+            }
+
+            if (boss && !boss.active) {
+                ctx.fillStyle = 'rgba(170,170,170,0.7)';
+                ctx.font = '13px monospace';
+                ctx.fillText(`Убито врагов: ${totalKills}/3`, 10, 30);
+            }
+
+            // Game Over
+            const playersAlive2 = player1.hp > 0 && (gameMode === 'coop' ? player2.hp > 0 : true);
+            if (!playersAlive2) {
+                ctx.fillStyle = 'rgba(0,0,0,0.75)';
+                ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = '#e74c3c';
+                ctx.font = '48px monospace';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 10;
+                ctx.fillText('💀 GAME OVER 💀', W / 2, H / 2 - 30);
+                ctx.fillStyle = '#fff';
+                ctx.font = '18px monospace';
+                if (gameMode === 'coop') {
+                    ctx.fillText(`P1 HP: ${player1.hp} | P2 HP: ${player2.hp}`, W / 2, H / 2 + 30);
+                } else {
+                    ctx.fillText(`HP: ${player1.hp}`, W / 2, H / 2 + 30);
+                }
+                ctx.fillStyle = '#aaa';
+                ctx.font = '14px monospace';
+                ctx.fillText('Нажмите "Перезапуск" или "Меню"', W / 2, H / 2 + 70);
+                ctx.shadowBlur = 0;
+                ctx.textAlign = 'left';
+            }
+
+            // Победа
+            const diff4 = getDifficulty();
+            const maxLvl2 = diff4.maxLevel || 5;
+            if (currentLevel >= maxLvl2) {
+                const allCollected = bricks.every(b => b.collected);
+                const allEnemiesDead = enemies.every(e => e.hp <= 0);
+                const bossDefeated = !boss || boss.hp <= 0 || !boss.active;
+                if (allCollected && allEnemiesDead && bossDefeated && playersAlive2) {
+                    ctx.fillStyle = 'rgba(0,0,0,0.65)';
+                    ctx.fillRect(0, 0, W, H);
+                    ctx.fillStyle = '#FFD700';
+                    ctx.font = '42px monospace';
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = '#FFD700';
+                    ctx.shadowBlur = 25;
+                    ctx.fillText('🏆 ИГРА ПРОЙДЕНА! 🏆', W / 2, H / 2 - 50);
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '22px monospace';
+                    ctx.fillText(`Сложность: ${diff4.icon} ${diff4.label}`, W / 2, H / 2);
+                    ctx.fillStyle = '#4CAF50';
+                    ctx.font = '16px monospace';
+                    const totalKills2 = player1.totalKills + (gameMode === 'coop' ? player2.totalKills : 0);
+                    ctx.fillText(`Всего врагов убито: ${totalKills2}`, W / 2, H / 2 + 45);
+                    ctx.fillStyle = '#888';
+                    ctx.font = '14px monospace';
+                    ctx.fillText('Нажмите "Меню" для выбора сложности', W / 2, H / 2 + 85);
+                    ctx.textAlign = 'left';
+                }
+            }
+        }
+
+        // ============================================================
+        // 27. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ РИСОВАНИЯ
+        // ============================================================
+        function drawEnemy(e) {
+            ctx.save();
+            // Тень
             ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.beginPath();
             ctx.ellipse(e.x + e.w / 2, e.y + e.h + 2, e.w / 2 + 2, 4, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            const bodyColor = e.hitTimer > 0 ? '#FF6B6B' : e.hurtTimer > 0 ? '#FF4444' : '#8D6E63';
+            switch (e.type) {
+                case 'wolf':
+                    drawWolf(e);
+                    break;
+                case 'harpy':
+                    drawHarpy(e);
+                    break;
+                case 'skeleton':
+                    drawSkeleton(e);
+                    break;
+                case 'necromancer':
+                    drawNecromancer(e);
+                    break;
+                default:
+                    drawWolf(e);
+            }
+            ctx.restore();
+        }
+
+        function drawWolf(e) {
+            const bodyColor = e.hitTimer > 0 ? '#FF6B6B' : '#8D6E63';
             ctx.fillStyle = bodyColor;
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 5;
@@ -2036,49 +2475,41 @@
             ctx.fill();
             ctx.shadowBlur = 0;
             ctx.shadowOffsetY = 0;
-
+            // Шерсть
             for (let i = 0; i < e.w - 8; i += 3) {
                 ctx.fillStyle = `rgba(120,90,80,${0.2 + Math.sin(i * 0.5 + e.y) * 0.1})`;
                 ctx.fillRect(e.x + 6 + i, e.y + 10 + i % 10, 2, 2);
             }
-
             ctx.fillStyle = '#A08070';
             ctx.beginPath();
             ctx.ellipse(e.x + e.w / 2 + e.dir * 2, e.y + 18, 6, 8, 0, 0, Math.PI * 2);
             ctx.fill();
-
             ctx.fillStyle = bodyColor;
             ctx.beginPath();
             ctx.ellipse(e.x + e.w / 2 + e.dir * 3, e.y + 10, 5, 6, 0.3 * e.dir, 0, Math.PI * 2);
             ctx.fill();
-
             ctx.fillStyle = e.hitTimer > 0 ? '#FF6B6B' : '#6D4C41';
             ctx.beginPath();
             ctx.ellipse(e.x + e.w / 2 + e.dir * 6, e.y + 6, 8, 7, 0.2 * e.dir, 0, Math.PI * 2);
             ctx.fill();
-
             ctx.fillStyle = '#7D5C4A';
             ctx.beginPath();
             ctx.ellipse(e.x + e.w / 2 + e.dir * 10, e.y + 8, 5, 4, 0.1 * e.dir, 0, Math.PI * 2);
             ctx.fill();
-
             ctx.fillStyle = '#1a1a2e';
             ctx.beginPath();
             ctx.arc(e.x + e.w / 2 + e.dir * 13, e.y + 7, 2, 0, Math.PI * 2);
             ctx.fill();
-
             ctx.strokeStyle = '#4A2A1A';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(e.x + e.w / 2 + e.dir * 11, e.y + 10, 3, 0.1, Math.PI - 0.1);
             ctx.stroke();
-
             if (Math.random() < 0.05) {
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(e.x + e.w / 2 + e.dir * 9, e.y + 10, 2, 2);
                 ctx.fillRect(e.x + e.w / 2 + e.dir * 12, e.y + 10, 2, 2);
             }
-
             const earAngle = e.earAngle || 0;
             ctx.fillStyle = '#6D4C41';
             ctx.beginPath();
@@ -2091,7 +2522,6 @@
             ctx.lineTo(e.x + e.w / 2 + e.dir * 7, e.y - 4 - earAngle * 2);
             ctx.lineTo(e.x + e.w / 2 + e.dir * 11, e.y + 1);
             ctx.fill();
-
             const eyeGlow = e.eyeGlow || 1;
             ctx.fillStyle = `rgba(255,235,59,${0.5 + 0.5 * eyeGlow})`;
             ctx.shadowColor = '#FFEB3B';
@@ -2103,7 +2533,6 @@
             ctx.arc(e.x + e.w / 2 + e.dir * 9, e.y + 5, 2.5, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
-
             ctx.fillStyle = '#1a1a2e';
             const targetX = player1.x + player1.w / 2;
             const targetY = player1.y + player1.h / 2;
@@ -2118,7 +2547,6 @@
             ctx.beginPath();
             ctx.arc(e.x + e.w / 2 + e.dir * 9 + lookX * 1.5, e.y + 5 + lookY * 1.5, 1.2, 0, Math.PI * 2);
             ctx.fill();
-
             const tailWag = e.tailWag || 0;
             ctx.strokeStyle = '#8D6E63';
             ctx.lineWidth = 4;
@@ -2135,14 +2563,12 @@
                 tailStartY - tailLen * 0.9
             );
             ctx.stroke();
-
             ctx.fillStyle = '#A08070';
             const tipX = tailStartX + Math.sin(tailAngle + 0.5) * tailLen - e.dir * 8;
             const tipY = tailStartY - tailLen * 0.9;
             ctx.beginPath();
             ctx.arc(tipX, tipY, 3, 0, Math.PI * 2);
             ctx.fill();
-
             const legPhase = e.legPhase || 0;
             ctx.fillStyle = '#7D5C4A';
             for (let i = 0; i < 4; i++) {
@@ -2154,32 +2580,142 @@
                 ctx.fillRect(legX - 1, legY + legOffset + 5, 2, 2);
                 ctx.fillStyle = '#7D5C4A';
             }
-
             if (e.hp < e.maxHp) {
                 const ratio = e.hp / e.maxHp;
                 ctx.fillStyle = 'rgba(0,0,0,0.6)';
                 ctx.fillRect(e.x, e.y - 10, e.w, 4);
-                ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : ratio > 0.25 ? '#FFD93D' : '#FF6B6B';
+                ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : '#FF6B6B';
                 ctx.fillRect(e.x, e.y - 10, e.w * ratio, 4);
-                ctx.fillStyle = 'rgba(255,255,255,0.2)';
-                ctx.fillRect(e.x, e.y - 10, e.w * ratio, 1);
             }
-
-            ctx.restore();
         }
 
-        // ============================================================
-        // 26. РИСОВАНИЕ БОССА-ВОЛКА
-        // ============================================================
-        function drawAlphaWolf(b) {
-            ctx.save();
+        function drawHarpy(e) {
+            const bodyColor = e.hitTimer > 0 ? '#FF6B6B' : '#8B7B6B';
+            ctx.fillStyle = bodyColor;
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetY = 2;
+            ctx.beginPath();
+            ctx.ellipse(e.x + e.w / 2, e.y + e.h / 2, e.w / 2, e.h / 2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.fillStyle = '#6B5B4B';
+            const wingY = e.y + 8;
+            ctx.beginPath();
+            ctx.ellipse(e.x - 6, wingY + Math.sin(e.legPhase) * 3, 10, 6, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(e.x + e.w + 6, wingY + Math.sin(e.legPhase + 0.5) * 3, 10, 6, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#7D6B5B';
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 + e.dir * 4, e.y + 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = `rgba(255,0,0,${0.6 + 0.4 * e.eyeGlow})`;
+            ctx.shadowColor = '#FF0000';
+            ctx.shadowBlur = 6;
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 + e.dir * 2, e.y + 7, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 + e.dir * 6, e.y + 7, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.moveTo(e.x + e.w / 2 + e.dir * 10, e.y + 9);
+            ctx.lineTo(e.x + e.w / 2 + e.dir * 14, e.y + 11);
+            ctx.lineTo(e.x + e.w / 2 + e.dir * 10, e.y + 13);
+            ctx.fill();
+            if (e.hp < e.maxHp) {
+                const ratio = e.hp / e.maxHp;
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillRect(e.x, e.y - 10, e.w, 4);
+                ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : '#FF6B6B';
+                ctx.fillRect(e.x, e.y - 10, e.w * ratio, 4);
+            }
+        }
 
+        function drawSkeleton(e) {
+            const bodyColor = e.hitTimer > 0 ? '#FF6B6B' : '#C8C0B0';
+            ctx.fillStyle = bodyColor;
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetY = 2;
+            ctx.fillRect(e.x + 4, e.y + 8, e.w - 8, e.h - 16);
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#E0D8C8';
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2, e.y + 8, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#1a1a2e';
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 - 4, e.y + 7, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 + 4, e.y + 7, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#B0B0B0';
+            ctx.fillRect(e.x + (e.dir > 0 ? e.w - 2 : -6), e.y + 6, 3, 20);
+            ctx.fillStyle = '#FFD700';
+            ctx.fillRect(e.x + (e.dir > 0 ? e.w - 1 : -5), e.y + 6, 1, 5);
+            if (e.hp < e.maxHp) {
+                const ratio = e.hp / e.maxHp;
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillRect(e.x, e.y - 10, e.w, 4);
+                ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : '#FF6B6B';
+                ctx.fillRect(e.x, e.y - 10, e.w * ratio, 4);
+            }
+        }
+
+        function drawNecromancer(e) {
+            const bodyColor = e.hitTimer > 0 ? '#FF6B6B' : '#2A1A3A';
+            ctx.fillStyle = bodyColor;
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetY = 2;
+            ctx.beginPath();
+            ctx.roundRect(e.x + 2, e.y + 6, e.w - 4, e.h - 8, 4);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#3A2A4A';
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2, e.y + 8, 12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = `rgba(180,0,255,${0.6 + 0.4 * e.eyeGlow})`;
+            ctx.shadowColor = '#B000FF';
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 - 3, e.y + 7, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(e.x + e.w / 2 + 3, e.y + 7, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#5D4037';
+            ctx.fillRect(e.x + (e.dir > 0 ? e.w - 2 : -6), e.y + 4, 3, 28);
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(e.x + (e.dir > 0 ? e.w : -4), e.y + 4, 4, 0, Math.PI * 2);
+            ctx.fill();
+            if (e.hp < e.maxHp) {
+                const ratio = e.hp / e.maxHp;
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillRect(e.x, e.y - 10, e.w, 4);
+                ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : '#FF6B6B';
+                ctx.fillRect(e.x, e.y - 10, e.w * ratio, 4);
+            }
+        }
+
+        function drawBoss(b) {
+            ctx.save();
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.beginPath();
             ctx.ellipse(b.x + b.w / 2, b.y + b.h + 3, b.w / 2 + 4, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            const bodyColor = b.hitTimer > 0 ? '#FF6B6B' : b.hurtTimer > 0 ? '#FF4444' : '#4A3A2A';
+            const bodyColor = b.hitTimer > 0 ? '#FF6B6B' : b.hurtTimer > 0 ? '#FF4444' : '#3A1A2A';
             ctx.fillStyle = bodyColor;
             ctx.shadowColor = 'rgba(0,0,0,0.4)';
             ctx.shadowBlur = 8;
@@ -2190,173 +2726,62 @@
             ctx.shadowBlur = 0;
             ctx.shadowOffsetY = 0;
 
-            ctx.fillStyle = '#FF6B00';
-            ctx.shadowColor = '#FF6B00';
-            ctx.shadowBlur = 10;
-            for (let i = 0; i < 8; i++) {
-                const angle = i / 8 * Math.PI * 2 + (b.capeWave || 0);
-                const rx = 12 + Math.sin(angle * 2) * 3;
-                const ry = 8 + Math.cos(angle) * 4;
-                ctx.beginPath();
-                ctx.ellipse(b.x + b.w / 2 + Math.sin(angle) * rx * 0.5, b.y + 12 + Math.cos(angle) * ry * 0.3, 4, 6, angle *
-                    0.3, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            ctx.shadowBlur = 0;
-
-            for (let i = 0; i < b.w - 8; i += 2) {
-                ctx.fillStyle = `rgba(80,60,50,${0.2 + Math.sin(i * 0.3 + b.y) * 0.1})`;
-                ctx.fillRect(b.x + 6 + i, b.y + 12 + i % 12, 2, 2);
-            }
-
-            ctx.fillStyle = '#A08070';
+            ctx.fillStyle = '#4A2A3A';
             ctx.beginPath();
-            ctx.ellipse(b.x + b.w / 2 + b.dir * 3, b.y + 22, 8, 10, 0, 0, Math.PI * 2);
+            ctx.arc(b.x + b.w / 2, b.y + 10, 12, 0, Math.PI * 2);
             ctx.fill();
-
-            ctx.fillStyle = bodyColor;
+            ctx.fillStyle = '#5D4037';
             ctx.beginPath();
-            ctx.ellipse(b.x + b.w / 2 + b.dir * 4, b.y + 12, 7, 8, 0.3 * b.dir, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = b.hitTimer > 0 ? '#FF6B6B' : '#5D4C3A';
-            ctx.beginPath();
-            ctx.ellipse(b.x + b.w / 2 + b.dir * 8, b.y + 7, 10, 9, 0.2 * b.dir, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#7D5C4A';
-            ctx.beginPath();
-            ctx.ellipse(b.x + b.w / 2 + b.dir * 14, b.y + 9, 7, 5, 0.1 * b.dir, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#1a1a2e';
-            ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 18, b.y + 8, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#2a1a0a';
-            ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 15, b.y + 12, 4, 0.1, Math.PI - 0.1);
-            ctx.fill();
-            ctx.fillStyle = '#FFFFFF';
-            ctx.shadowColor = '#FFFFFF';
-            ctx.shadowBlur = 4;
-            ctx.fillRect(b.x + b.w / 2 + b.dir * 12, b.y + 11, 3, 4);
-            ctx.fillRect(b.x + b.w / 2 + b.dir * 17, b.y + 11, 3, 4);
-            ctx.shadowBlur = 0;
-
-            ctx.fillStyle = '#5D4C3A';
-            ctx.beginPath();
-            ctx.moveTo(b.x + b.w / 2 + b.dir * 4, b.y + 1);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 1, b.y - 8);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 7, b.y);
+            ctx.moveTo(b.x + b.w / 2 - 10, b.y + 2);
+            ctx.lineTo(b.x + b.w / 2 - 14, b.y - 8);
+            ctx.lineTo(b.x + b.w / 2 - 6, b.y + 2);
             ctx.fill();
             ctx.beginPath();
-            ctx.moveTo(b.x + b.w / 2 + b.dir * 12, b.y + 1);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 9, b.y - 7);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 15, b.y);
+            ctx.moveTo(b.x + b.w / 2 + 10, b.y + 2);
+            ctx.lineTo(b.x + b.w / 2 + 14, b.y - 8);
+            ctx.lineTo(b.x + b.w / 2 + 6, b.y + 2);
             ctx.fill();
-            ctx.fillStyle = '#FF8A80';
-            ctx.beginPath();
-            ctx.moveTo(b.x + b.w / 2 + b.dir * 4, b.y + 1);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 2, b.y - 5);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 6, b.y);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.moveTo(b.x + b.w / 2 + b.dir * 12, b.y + 1);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 10, b.y - 4);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 14, b.y);
-            ctx.fill();
-
-            const eyeGlow2 = b.eyeGlow || 1;
-            ctx.fillStyle = `rgba(255,23,68,${0.6 + 0.4 * eyeGlow2})`;
-            ctx.shadowColor = '#FF1744';
+            ctx.fillStyle = `rgba(255,0,0,${0.8 + 0.2 * b.eyeGlow})`;
+            ctx.shadowColor = '#FF0000';
             ctx.shadowBlur = 12;
             ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 6, b.y + 6, 3.5, 0, Math.PI * 2);
+            ctx.arc(b.x + b.w / 2 - 4, b.y + 8, 3.5, 0, Math.PI * 2);
             ctx.fill();
             ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 12, b.y + 6, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-
-            ctx.fillStyle = '#1a1a2e';
-            ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 6 + b.dir * 2, b.y + 6, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(b.x + b.w / 2 + b.dir * 12 + b.dir * 2, b.y + 6, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            const tailWag2 = b.capeWave || 0;
-            ctx.strokeStyle = '#4A3A2A';
-            ctx.lineWidth = 6;
-            ctx.beginPath();
-            const tailStartX2 = b.x + b.w / 2 - b.dir * 6;
-            const tailStartY2 = b.y + b.h - 4;
-            const tailLen2 = 20 + Math.sin(tailWag2) * 5;
-            const tailAngle2 = -0.8 + Math.sin(tailWag2 * 1.3) * 0.5;
-            ctx.moveTo(tailStartX2, tailStartY2);
-            ctx.quadraticCurveTo(
-                tailStartX2 + Math.sin(tailAngle2) * tailLen2 * 0.5 - b.dir * 8,
-                tailStartY2 - tailLen2 * 0.6,
-                tailStartX2 + Math.sin(tailAngle2 + 0.5) * tailLen2 - b.dir * 10,
-                tailStartY2 - tailLen2 * 0.9
-            );
-            ctx.stroke();
-
-            ctx.fillStyle = '#FF6B00';
-            ctx.shadowColor = '#FF6B00';
-            ctx.shadowBlur = 8;
-            const tipX2 = tailStartX2 + Math.sin(tailAngle2 + 0.5) * tailLen2 - b.dir * 10;
-            const tipY2 = tailStartY2 - tailLen2 * 0.9;
-            ctx.beginPath();
-            ctx.arc(tipX2, tipY2, 4, 0, Math.PI * 2);
+            ctx.arc(b.x + b.w / 2 + 4, b.y + 8, 3.5, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
-
-            ctx.fillStyle = '#5D4C3A';
-            for (let i = 0; i < 4; i++) {
-                const legX = b.x + 8 + i * 10;
-                const legY = b.y + b.h - 4;
-                const legOffset = Math.sin(((b.animTimer || 0) * 0.1) + i * 1.2) * 2;
-                ctx.fillRect(legX - 3, legY + legOffset, 6, 8 - legOffset * 0.5);
-                ctx.fillStyle = '#3A2A1A';
-                ctx.fillRect(legX - 2, legY + legOffset + 7, 4, 2);
-                ctx.fillStyle = '#5D4C3A';
+            if (b.phase === 2) {
+                ctx.fillStyle = 'rgba(255,100,0,0.15)';
+                ctx.beginPath();
+                ctx.arc(b.x + b.w / 2, b.y + b.h / 2, 30, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'rgba(255,200,0,0.08)';
+                ctx.beginPath();
+                ctx.arc(b.x + b.w / 2, b.y + b.h / 2, 40, 0, Math.PI * 2);
+                ctx.fill();
             }
-
-            ctx.strokeStyle = '#FF6B00';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(b.x + b.w / 2 + b.dir * 4, b.y + 2);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 8, b.y + 4);
-            ctx.lineTo(b.x + b.w / 2 + b.dir * 6, b.y + 8);
-            ctx.stroke();
-
+            ctx.fillStyle = '#B0B0B0';
+            ctx.fillRect(b.x + (b.dir > 0 ? b.w - 2 : -6), b.y + 4, 4, 28);
+            ctx.fillStyle = '#FFD700';
+            ctx.fillRect(b.x + (b.dir > 0 ? b.w - 1 : -5), b.y + 4, 2, 6);
             ctx.fillStyle = 'rgba(0,0,0,0.8)';
             ctx.fillRect(b.x - 12, b.y - 26, b.w + 24, 14);
             const ratio = b.hp / b.maxHp;
             ctx.fillStyle = ratio > 0.5 ? '#4CAF50' : ratio > 0.25 ? '#FFD93D' : '#FF6B6B';
-            ctx.shadowBlur = 5;
-            ctx.shadowColor = ctx.fillStyle;
             ctx.fillRect(b.x - 10, b.y - 24, (b.w + 20) * ratio, 10);
-            ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(255,255,255,0.15)';
             ctx.fillRect(b.x - 10, b.y - 24, (b.w + 20) * ratio, 3);
-
             ctx.fillStyle = '#fff';
             ctx.font = 'bold 10px monospace';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
             ctx.shadowColor = 'rgba(0,0,0,0.8)';
             ctx.shadowBlur = 4;
-            const diffIcon = getDifficulty().icon;
-            ctx.fillText(`🐺 АЛЬФА-ВОЛК ${diffIcon} Lv.${currentLevel}`, b.x + b.w / 2, b.y - 28);
+            ctx.fillText(`🔥 ДЕМОН ${b.phase === 2 ? 'ФАЗА 2' : 'ФАЗА 1'}`, b.x + b.w / 2, b.y - 28);
             ctx.shadowBlur = 0;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'alphabetic';
-
             if (b.stunned) {
                 ctx.fillStyle = '#FFD700';
                 ctx.font = '20px monospace';
@@ -2366,12 +2791,11 @@
                 ctx.fillText('💫', b.x + b.w - 4, b.y - 14);
                 ctx.shadowBlur = 0;
             }
-
             ctx.restore();
         }
 
         // ============================================================
-        // 27. РИСОВАНИЕ ИГРОКА
+        // 28. РИСОВАНИЕ ИГРОКА
         // ============================================================
         function drawPlayer(player, isP1) {
             const p = player;
@@ -2555,620 +2979,7 @@
         }
 
         // ============================================================
-        // 28. ОБНОВЛЕНИЕ ИГРЫ
-        // ============================================================
-        function update() {
-            updatePlayer(player1, true);
-            if (gameMode === 'coop') {
-                updatePlayer(player2, false);
-            }
-
-            const diff = getDifficulty();
-            const totalKills = player1.kills + (gameMode === 'coop' ? player2.kills : 0);
-
-            if (boss && totalKills >= 3 && !boss.active) {
-                boss.active = true;
-                boss.x = 720;
-                boss.y = FLOOR_Y - boss.h;
-                boss.onGround = true;
-                spawnMagicParticles(boss.x + boss.w / 2, boss.y + boss.h / 2, '#FF1744', 40);
-                showFloatingText('🐺 АЛЬФА-ВОЛК!', W / 2 - 60, 50, '#FF6B00', 24);
-            }
-
-            if (boss && boss.active && boss.hp > 0) {
-                const b = boss;
-                b.animTimer++;
-                if (b.animTimer > 8) { b.animTimer = 0;
-                    b.frame = (b.frame + 1) % 4; }
-                b.capeWave += 0.05;
-                b.eyeGlow = Math.sin(b.capeWave * 0.7) * 0.3 + 0.7;
-                b.swordGlow = Math.sin(b.capeWave * 0.5) * 0.3 + 0.7;
-                if (b.hurtTimer > 0) b.hurtTimer--;
-                b.patternTimer++;
-                if (b.patternTimer > 100) { b.patternTimer = 0;
-                    b.pattern = Math.floor(Math.random() * 3); }
-
-                if (!b.stunned) {
-                    b.x += b.speed * b.dir;
-                    if (b.x < 100 || b.x > W - b.w - 50) b.dir *= -1;
-                    if (b.x < 50) b.x = 50;
-                    if (b.x > W - b.w - 50) b.x = W - b.w - 50;
-                    b.jumpCooldown--;
-                    if (b.jumpCooldown <= 0 && Math.random() < 0.02 && b.onGround) {
-                        b.vy = -9;
-                        b.onGround = false;
-                        b.jumpCooldown = 60;
-                        b.isJumping = true;
-                        spawnParticles(b.x + b.w / 2, b.y + b.h, 6, '#FFFFFF', 2, 15, 2);
-                    }
-                }
-
-                if (!b.onGround) { b.vy += GRAVITY; if (b.vy > 12) b.vy = 12; }
-                b.y += b.vy;
-                b.onGround = false;
-                for (let p of platforms) {
-                    if (rectCollide(b, p)) {
-                        if (b.vy > 0 && b.y + b.h - b.vy <= p.y + 2) {
-                            b.y = p.y - b.h;
-                            b.vy = 0;
-                            b.onGround = true;
-                            b.isJumping = false;
-                        } else if (b.vy < 0 && b.y - b.vy >= p.y + p.h - 2) { b.y = p.y + p.h;
-                            b.vy = 0; }
-                    }
-                }
-                if (b.y > H + 50) { b.y = FLOOR_Y - b.h;
-                    b.vy = 0;
-                    b.onGround = true; }
-
-                if (!b.stunned) {
-                    b.attackCooldown--;
-                    if (b.attackCooldown <= 0) {
-                        const players = [player1];
-                        if (gameMode === 'coop') players.push(player2);
-                        let target = players[0];
-                        let minDist = Infinity;
-                        for (let p of players) {
-                            if (p.hp <= 0) continue;
-                            const dist = Math.abs(b.x - p.x);
-                            if (dist < minDist) { minDist = dist;
-                                target = p; }
-                        }
-
-                        if (target && Math.abs(b.x - target.x) < 130 && b.onGround) {
-                            b.attackCooldown = 40;
-                            let damageTaken = diff.enemyDamage * 2 || 2;
-                            if (target.buffs.shield) damageTaken = Math.ceil(damageTaken / 2);
-                            if (target.shieldActive <= 0 && target.invincible <= 0) {
-                                target.hp -= damageTaken;
-                                target.invincible = 40;
-                                target.hurtTimer = 10;
-                                spawnHitParticles(target.x + target.w / 2, target.y + target.h / 2, '#FF1744');
-                                if (target.x < b.x) target.x = b.x - target.w - 10;
-                                else target.x = b.x + b.w + 10;
-                                showFloatingText('💥 -' + damageTaken + ' HP', target.x, target.y - 30, '#FF1744',
-                                    target);
-                                if (target.hp <= 0) spawnDeathParticles(target.x + target.w / 2, target.y + target.h /
-                                    2);
-                            }
-                            b.hitTimer = 10;
-                            spawnParticles(b.x + b.w / 2, b.y + b.h / 2, 12, '#FF1744', 4, 20, 3);
-                        }
-                    }
-                }
-
-                if (b.stunned) { b.stunTimer--; if (b.stunTimer <= 0) b.stunned = false; }
-
-                const players2 = [player1];
-                if (gameMode === 'coop') players2.push(player2);
-                for (let p of players2) {
-                    if (p.hp <= 0) continue;
-                    if (p.attacking && p.attackTimer > 8) {
-                        let attackBox = {
-                            x: p.facing > 0 ? p.x + p.w : p.x - 35,
-                            y: p.y - 5,
-                            w: 35,
-                            h: p.h + 10
-                        };
-                        if (rectCollide(attackBox, b)) {
-                            let damage = p.damageMultiplier * (diff.playerDamage || 1);
-                            if (p.buffs.extraDamage) damage += 1;
-                            damage = Math.ceil(damage);
-                            b.hp -= damage;
-                            b.hitTimer = 10;
-                            b.hurtTimer = 10;
-                            b.stunned = true;
-                            b.stunTimer = 25;
-                            spawnHitParticles(b.x + b.w / 2, b.y + b.h / 2, p.color);
-                            b.x += p.facing * 30;
-                            showFloatingText('⚡ -' + damage, b.x + b.w / 2, b.y - 30, '#FFD700', p);
-                            if (b.hp <= 0) {
-                                p.kills++;
-                                p.totalKills++;
-                                dropPotion(b.x, b.y);
-                                dropPotion(b.x + 20, b.y);
-                                spawnDeathParticles(b.x + b.w / 2, b.y + b.h / 2);
-                                spawnMagicParticles(W / 2, 50, '#FFD700', 50);
-                                showFloatingText('🏆 АЛЬФА-ВОЛК ПОВЕРЖЕН!', W / 2 - 80, 50, '#FFD700', 24);
-                                saveStats();
-                                updateMenuStats();
-                            }
-                        }
-                    }
-                }
-                if (b.hitTimer > 0) b.hitTimer--;
-            }
-
-            const allCollected = bricks.every(b => b.collected);
-            const allEnemiesDead = enemies.every(e => e.hp <= 0);
-            const bossDefeated = !boss || boss.hp <= 0 || !boss.active;
-            const playersAlive = player1.hp > 0 && (gameMode === 'coop' ? player2.hp > 0 : true);
-
-            if (allCollected && allEnemiesDead && bossDefeated && playersAlive) {
-                const diff = getDifficulty();
-                const maxLvl = diff.maxLevel || 5;
-                if (currentLevel < maxLvl) {
-                    nextLevel();
-                }
-            }
-
-            const time = Date.now() * 0.001;
-            for (let bf of buffItems) { bf.bobTimer += 0.05;
-                bf.rot += 0.02;
-                bf.pulsePhase += 0.05; }
-            for (let dp of droppedPotions) { dp.bobTimer += 0.05;
-                dp.rot += 0.03;
-                dp.glowPhase += 0.04; }
-            for (let b of bricks) { b.rot += 0.02;
-                b.glowPhase += 0.04; }
-
-            for (let d of decorations) {
-                if (d.type === 'firefly') {
-                    d.x += Math.sin(d.phase + time * d.speed) * 0.3;
-                    d.y += Math.cos(d.phase * 0.7 + time * d.speed * 0.8) * 0.2;
-                    d.phase += 0.02;
-                }
-            }
-
-            for (let p of particles) {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += p.gravity || 0.05;
-                p.life--;
-                p.rotation += p.rotSpeed || 0;
-                if (p.trail) {
-                    p.trail.push({ x: p.x, y: p.y });
-                    if (p.trail.length > 5) p.trail.shift();
-                }
-            }
-            particles = particles.filter(p => p.life > 0);
-
-            updateWeather();
-
-            for (let ft of floatingTexts) { ft.y += ft.vy;
-                ft.life--; }
-            floatingTexts = floatingTexts.filter(ft => ft.life > 0);
-
-            updateMainUI();
-            updateMenuStats();
-        }
-
-        // ============================================================
-        // 29. РИСОВАНИЕ
-        // ============================================================
-        function draw() {
-            ctx.clearRect(0, 0, W, H);
-            const diff = getDifficulty();
-            const weather = diff.weather || 'clear';
-
-            let grad;
-            if (weather === 'storm') {
-                grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, '#0a0a1a');
-                grad.addColorStop(0.5, '#1a0a0a');
-                grad.addColorStop(1, '#2a1a0a');
-            } else if (weather === 'rain') {
-                grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, '#0a0a2a');
-                grad.addColorStop(0.5, '#1a1a3a');
-                grad.addColorStop(1, '#2a2a4a');
-            } else {
-                const hue = 220 + currentLevel * 5;
-                grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, `hsl(${hue}, 40%, 10%)`);
-                grad.addColorStop(0.5, `hsl(${hue + 10}, 35%, 18%)`);
-                grad.addColorStop(1, `hsl(${hue + 20}, 30%, 25%)`);
-            }
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, W, H);
-
-            const starCount = 25 + currentLevel * 5;
-            for (let i = 0; i < starCount; i++) {
-                let sx = (i * 37 + 13 * currentLevel) % W;
-                let sy = (i * 53 + 7 * currentLevel) % 150;
-                let brightness = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(i * 1.7 + Date.now() * 0.001));
-                ctx.fillStyle = `rgba(255,255,255,${brightness * 0.6})`;
-                const size = 1 + Math.sin(i * 2.3) * 0.5;
-                ctx.fillRect(sx, sy, size, size);
-            }
-
-            if (weather !== 'storm') {
-                ctx.save();
-                const moonX = 700 - currentLevel * 10;
-                const moonY = 50 + currentLevel * 3;
-                const moonGlow = ctx.createRadialGradient(moonX, moonY, 5, moonX, moonY, 45);
-                moonGlow.addColorStop(0, `rgba(255,215,0,${weather === 'rain' ? 0.05 : 0.15})`);
-                moonGlow.addColorStop(1, 'rgba(255,215,0,0)');
-                ctx.fillStyle = moonGlow;
-                ctx.beginPath();
-                ctx.arc(moonX, moonY, 45, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#FFD700';
-                ctx.shadowColor = '#FFD700';
-                ctx.shadowBlur = weather === 'rain' ? 10 : 20;
-                ctx.beginPath();
-                ctx.arc(moonX, moonY, 25, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = 'rgba(200,170,50,0.3)';
-                ctx.beginPath();
-                ctx.arc(moonX - 8, moonY - 5, 5, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(moonX + 10, moonY + 8, 4, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(moonX + 5, moonY - 10, 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
-            if (weather === 'clear') {
-                ctx.fillStyle = 'rgba(200,200,255,0.03)';
-                for (let i = 0; i < 3; i++) {
-                    const cx = (i * 300 + Date.now() * 0.005) % (W + 100) - 50;
-                    const cy = 30 + i * 25;
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, 30 + i * 10, 0, Math.PI * 2);
-                    ctx.arc(cx + 30 + i * 10, cy - 10, 25 + i * 8, 0, Math.PI * 2);
-                    ctx.arc(cx + 60 + i * 20, cy, 20 + i * 6, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            if (weather === 'rain' || weather === 'storm') {
-                for (let r of rainDrops) {
-                    ctx.strokeStyle = `rgba(200,200,255,${r.opacity * 0.3})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(r.x, r.y);
-                    ctx.lineTo(r.x + 2, r.y + r.length);
-                    ctx.stroke();
-                }
-            }
-
-            for (let l of lightningBolts) {
-                const alpha = l.life / l.maxLife;
-                ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.8})`;
-                ctx.lineWidth = 3;
-                ctx.shadowColor = '#FFFFFF';
-                ctx.shadowBlur = 20;
-                ctx.beginPath();
-                ctx.moveTo(l.x, 0);
-                let x = l.x,
-                    y = 0;
-                while (y < H) { x += (Math.random() - 0.5) * 30;
-                    y += 10 + Math.random() * 20;
-                    ctx.lineTo(x, y); }
-                ctx.stroke();
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = `rgba(255,255,255,${alpha * 0.05})`;
-                ctx.fillRect(0, 0, W, H);
-            }
-
-            for (let p of platforms) {
-                const hue2 = 200 + currentLevel * 8;
-                ctx.fillStyle = `hsl(${hue2}, 25%, 32%)`;
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 10;
-                ctx.shadowOffsetY = 3;
-                ctx.fillRect(p.x, p.y, p.w, p.h);
-                ctx.shadowBlur = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.fillStyle = `hsl(${hue2 + 10}, 30%, 40%)`;
-                ctx.fillRect(p.x, p.y, p.w, 3);
-                for (let i = 0; i < p.w; i += 12) {
-                    ctx.fillStyle = `hsl(${hue2 + 20}, 25%, 35%)`;
-                    ctx.fillRect(p.x + i, p.y + 4, 4, 3);
-                    ctx.fillRect(p.x + i + 6, p.y + 8, 4, 3);
-                }
-            }
-
-            for (let d of decorations) {
-                if (d.type === 'stone') {
-                    ctx.fillStyle = 'rgba(100,100,120,0.3)';
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
-                    ctx.fill();
-                } else if (d.type === 'flower') {
-                    const sway = Math.sin(Date.now() * 0.001 + d.x) * 0.3;
-                    ctx.save();
-                    ctx.translate(d.x, d.y);
-                    ctx.rotate(sway);
-                    ctx.fillStyle = d.color;
-                    for (let i = 0; i < 5; i++) {
-                        const angle = (i / 5) * Math.PI * 2 + Date.now() * 0.0005;
-                        const r = 3 + Math.sin(Date.now() * 0.001 + i) * 0.5;
-                        ctx.beginPath();
-                        ctx.arc(Math.cos(angle) * r, Math.sin(angle) * r, 1.5, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    ctx.fillStyle = '#FFD700';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 1, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                } else if (d.type === 'grass') {
-                    for (let i = 0; i < d.w; i += 4) {
-                        const h = 3 + Math.sin(i * 0.5 + Date.now() * 0.001) * 2;
-                        ctx.strokeStyle = `rgba(76,175,80,${0.3 + Math.sin(i * 0.3) * 0.2})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(d.x + i, d.y + d.h);
-                        ctx.quadraticCurveTo(d.x + i + 1, d.y + d.h - h, d.x + i + 2, d.y + d.h);
-                        ctx.stroke();
-                    }
-                } else if (d.type === 'firefly') {
-                    const glow = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(Date.now() * 0.002 + d.phase));
-                    ctx.fillStyle = `rgba(255,255,100,${glow * 0.3})`;
-                    ctx.shadowColor = '#FFD700';
-                    ctx.shadowBlur = 10 * glow;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, 2 * glow, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                }
-            }
-
-            for (let pit of pits) {
-                const glow = Math.sin(Date.now() * 0.002 + pit.x) * 0.1 + 0.4;
-                ctx.fillStyle = `rgba(10,10,26,${0.7 + glow * 0.3})`;
-                ctx.fillRect(pit.x, pit.y + 5, pit.w, pit.h + 10);
-                ctx.fillStyle = `rgba(26,26,46,${0.5 + glow * 0.5})`;
-                ctx.fillRect(pit.x + 2, pit.y + 10, pit.w - 4, pit.h);
-            }
-
-            for (let b of bricks) {
-                if (b.collected) continue;
-                const bob = Math.sin(b.glowPhase) * 2;
-                const glow = Math.sin(b.glowPhase) * 0.2 + 0.8;
-                ctx.save();
-                ctx.translate(b.x + b.w / 2, b.y + b.h / 2 + bob);
-                ctx.rotate(b.rot);
-                ctx.fillStyle = `rgb(${255 * glow}, ${215 * glow}, ${50 * glow})`;
-                ctx.shadowColor = '#FFD700';
-                ctx.shadowBlur = 8;
-                ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = `rgba(200,180,40,0.5)`;
-                ctx.fillRect(-b.w / 2 + 2, -b.h / 2 + 2, 3, 3);
-                ctx.fillRect(b.w / 2 - 5, -b.h / 2 + 2, 3, 3);
-                ctx.fillRect(-b.w / 2 + 2, b.h / 2 - 5, 3, 3);
-                ctx.fillRect(b.w / 2 - 5, b.h / 2 - 5, 3, 3);
-                ctx.restore();
-            }
-
-            const buffColors = { speed: '#00E5FF', doubleJump: '#FF6B6B', regen: '#4CAF50', extraDamage: '#FFD700',
-                shield: '#2196F3' };
-            const buffSymbols = { speed: '💨', doubleJump: '🦘', regen: '💚', extraDamage: '⚡', shield: '🛡️' };
-            for (let bf of buffItems) {
-                if (bf.collected) continue;
-                const bob = Math.sin(bf.bobTimer) * 3;
-                const pulse = Math.sin(bf.pulsePhase) * 0.2 + 0.8;
-                const color = buffColors[bf.type] || '#FFD700';
-                ctx.save();
-                ctx.translate(bf.x + bf.w / 2, bf.y + bf.h / 2 + bob);
-                ctx.rotate(bf.rot);
-                const buffGlow = ctx.createRadialGradient(0, 0, 2, 0, 0, 20);
-                buffGlow.addColorStop(0, `${color}${Math.floor(40 * pulse).toString(16).padStart(2, '0')}`);
-                buffGlow.addColorStop(1, `${color}00`);
-                ctx.fillStyle = buffGlow;
-                ctx.beginPath();
-                ctx.arc(0, 0, 20, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = `rgba(255,255,255,${0.1 * pulse})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(0, 0, 12, 0, Math.PI * 2);
-                ctx.stroke();
-                ctx.fillStyle = color;
-                ctx.shadowColor = color;
-                ctx.shadowBlur = 15;
-                ctx.beginPath();
-                ctx.arc(0, 0, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = '#1a1a2e';
-                ctx.beginPath();
-                ctx.arc(0, 0, 6, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.font = '12px monospace';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#fff';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(buffSymbols[bf.type] || '⭐', 0, 1);
-                ctx.shadowBlur = 0;
-                ctx.restore();
-            }
-
-            const potionColors = ['#4CAF50', '#FF6B00', '#9C27B0'];
-            const potionSymbols = ['❤️', '⚔️', '🛡️'];
-            for (let dp of droppedPotions) {
-                if (dp.collected) continue;
-                const bob = Math.sin(dp.bobTimer) * 2;
-                const glow = Math.sin(dp.glowPhase) * 0.2 + 0.8;
-                ctx.save();
-                ctx.translate(dp.x + dp.w / 2, dp.y + dp.h / 2 + bob);
-                ctx.rotate(dp.rot);
-                const potGlow = ctx.createRadialGradient(0, 0, 2, 0, 0, 15);
-                potGlow.addColorStop(0, `${potionColors[dp.type]}${Math.floor(30 * glow).toString(16).padStart(2, '0')}`);
-                potGlow.addColorStop(1, `${potionColors[dp.type]}00`);
-                ctx.fillStyle = potGlow;
-                ctx.beginPath();
-                ctx.arc(0, 0, 15, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = potionColors[dp.type];
-                ctx.shadowColor = potionColors[dp.type];
-                ctx.shadowBlur = 10;
-                ctx.beginPath();
-                ctx.roundRect(-dp.w / 2, -dp.h / 2, dp.w, dp.h, 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = `rgba(255,255,255,0.2)`;
-                ctx.beginPath();
-                ctx.roundRect(-dp.w / 2 + 2, -dp.h / 2 + 2, 3, 4, 1);
-                ctx.fill();
-                ctx.font = '9px monospace';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#fff';
-                ctx.fillText(potionSymbols[dp.type], 0, 1);
-                ctx.restore();
-            }
-
-            for (let e of enemies) {
-                if (e.hp <= 0) continue;
-                drawWolf(e);
-            }
-
-            if (boss && boss.active && boss.hp > 0) {
-                drawAlphaWolf(boss);
-            }
-
-            drawPlayer(player1, true);
-            if (gameMode === 'coop') {
-                drawPlayer(player2, false);
-            }
-
-            for (let p of particles) {
-                const alpha = p.life / (p.maxLife || 30);
-                ctx.globalAlpha = alpha;
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rotation || 0);
-                ctx.fillStyle = p.color || '#FFFFFF';
-                ctx.shadowColor = p.color || '#FFFFFF';
-                ctx.shadowBlur = 8;
-                if (p.trail && p.trail.length > 1) {
-                    for (let i = 0; i < p.trail.length - 1; i++) {
-                        const tAlpha = (i / p.trail.length) * alpha * 0.5;
-                        ctx.globalAlpha = tAlpha;
-                        ctx.fillStyle = p.color || '#FFFFFF';
-                        ctx.beginPath();
-                        ctx.arc(p.trail[i].x - p.x, p.trail[i].y - p.y, p.size * (i / p.trail.length), 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    ctx.globalAlpha = alpha;
-                }
-                ctx.beginPath();
-                ctx.arc(0, 0, p.size || 2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-                ctx.restore();
-            }
-            ctx.globalAlpha = 1;
-
-            for (let ft of floatingTexts) {
-                const alpha = ft.life / 60;
-                ctx.globalAlpha = alpha;
-                ctx.fillStyle = ft.color;
-                ctx.font = `bold ${ft.size || 16}px monospace`;
-                ctx.textAlign = 'center';
-                ctx.shadowColor = 'rgba(0,0,0,0.9)';
-                ctx.shadowBlur = 8;
-                ctx.fillText(ft.text, ft.x, ft.y);
-                ctx.shadowBlur = 0;
-                ctx.textAlign = 'left';
-            }
-            ctx.globalAlpha = 1;
-
-            const totalKills = player1.kills + (gameMode === 'coop' ? player2.kills : 0);
-            if (totalKills >= 3 && boss && !boss.active) {
-                ctx.fillStyle = 'rgba(255,107,0,0.8)';
-                ctx.font = '18px monospace';
-                ctx.textAlign = 'center';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 8;
-                ctx.fillText(`🐺 АЛЬФА-ВОЛК УРОВНЯ ${currentLevel}!`, W / 2, 35);
-                ctx.shadowBlur = 0;
-                ctx.textAlign = 'left';
-            }
-
-            if (boss && !boss.active) {
-                ctx.fillStyle = 'rgba(170,170,170,0.7)';
-                ctx.font = '13px monospace';
-                ctx.fillText(`Волков убито: ${totalKills}/3`, 10, 30);
-            }
-
-            const playersAlive2 = player1.hp > 0 && (gameMode === 'coop' ? player2.hp > 0 : true);
-            if (!playersAlive2) {
-                ctx.fillStyle = 'rgba(0,0,0,0.75)';
-                ctx.fillRect(0, 0, W, H);
-                ctx.fillStyle = '#e74c3c';
-                ctx.font = '48px monospace';
-                ctx.textAlign = 'center';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 10;
-                ctx.fillText('💀 GAME OVER 💀', W / 2, H / 2 - 30);
-                ctx.fillStyle = '#fff';
-                ctx.font = '18px monospace';
-                if (gameMode === 'coop') {
-                    ctx.fillText(`P1 HP: ${player1.hp} | P2 HP: ${player2.hp}`, W / 2, H / 2 + 30);
-                } else {
-                    ctx.fillText(`HP: ${player1.hp}`, W / 2, H / 2 + 30);
-                }
-                ctx.fillStyle = '#aaa';
-                ctx.font = '14px monospace';
-                ctx.fillText('Нажмите "Перезапуск" или "Меню"', W / 2, H / 2 + 70);
-                ctx.shadowBlur = 0;
-                ctx.textAlign = 'left';
-            }
-
-            const diff4 = getDifficulty();
-            const maxLvl2 = diff4.maxLevel || 5;
-            if (currentLevel >= maxLvl2) {
-                const allCollected = bricks.every(b => b.collected);
-                const allEnemiesDead = enemies.every(e => e.hp <= 0);
-                const bossDefeated = !boss || boss.hp <= 0 || !boss.active;
-                if (allCollected && allEnemiesDead && bossDefeated && playersAlive2) {
-                    ctx.fillStyle = 'rgba(0,0,0,0.65)';
-                    ctx.fillRect(0, 0, W, H);
-                    ctx.fillStyle = '#FFD700';
-                    ctx.font = '42px monospace';
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = '#FFD700';
-                    ctx.shadowBlur = 25;
-                    ctx.fillText('🏆 ИГРА ПРОЙДЕНА! 🏆', W / 2, H / 2 - 50);
-                    ctx.shadowBlur = 0;
-                    ctx.fillStyle = '#fff';
-                    ctx.font = '22px monospace';
-                    ctx.fillText(`Сложность: ${diff4.icon} ${diff4.label}`, W / 2, H / 2);
-                    ctx.fillStyle = '#4CAF50';
-                    ctx.font = '16px monospace';
-                    const totalKills2 = player1.totalKills + (gameMode === 'coop' ? player2.totalKills : 0);
-                    ctx.fillText(`Всего волков убито: ${totalKills2}`, W / 2, H / 2 + 45);
-                    ctx.fillStyle = '#888';
-                    ctx.font = '14px monospace';
-                    ctx.fillText('Нажмите "Меню" для выбора сложности', W / 2, H / 2 + 85);
-                    ctx.textAlign = 'left';
-                }
-            }
-        }
-
-        // ============================================================
-        // 30. ИГРОВОЙ ЦИКЛ
+        // 29. ИГРОВОЙ ЦИКЛ
         // ============================================================
         function gameLoop() {
             update();
@@ -3177,22 +2988,26 @@
         }
 
         // ============================================================
-        // 31. ЗАПУСК
+        // 30. ЗАПУСК
         // ============================================================
         menuOverlay.classList.remove('hidden');
         if (savedStats) {
             if (savedStats.difficulty) currentDifficulty = savedStats.difficulty;
             if (savedStats.mode) gameMode = savedStats.mode;
         }
-        modeBtns.forEach(b => b.classList.toggle('selected', b.dataset.mode === gameMode));
-        diffBtns.forEach(b => b.classList.toggle('selected', b.dataset.diff === currentDifficulty));
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('selected', b.dataset.mode === gameMode));
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.toggle('selected', b.dataset.diff ===
+        currentDifficulty));
         updateMenuStats();
         updateMainUI();
+        // Показываем приветственный диалог
+        setTimeout(() => {
+            showDialogue('Добро пожаловать, ведьмак. Тьма сгущается...', 'Голос');
+        }, 500);
         gameLoop();
 
-        console.log('🎮 LEGO Ведьмак - Полноэкранный режим + кнопки ходьбы!');
-        console.log('📱 Нажмите ⛶ для переключения в полноэкранный режим');
-        console.log('🖥️ На ПК: стрелки + WASD');
+        console.log('🛡️ Ведьмак: Наследие загружена!');
+        console.log('🐺 4 типа врагов, 3 биома, босс с 2 фазами!');
     </script>
 </body>
 </html>
