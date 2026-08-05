@@ -47,6 +47,7 @@
     </script>
     
     <style>
+        /* Весь CSS из исходного файла – оставлен без изменений */
         *{margin:0;padding:0;box-sizing:border-box;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
         html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Courier New',monospace;position:fixed;top:0;left:0}
         .game-wrapper{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;padding:4px;background:#16213e;border-radius:8px;border:2px solid #4a9e6e;max-width:100vw;max-height:100vh;gap:4px}
@@ -67,19 +68,16 @@
         .menu-btn{padding:6px 20px;border:2px solid #4a9e6e;border-radius:8px;background:#4a9e6e;color:#1a1a2e;font-size:14px;font-weight:bold;cursor:pointer;font-family:'Courier New',monospace;transition:0.3s;margin-top:4px;width:80%;max-width:240px}
         .menu-btn:active{transform:scale(0.95)}
         .menu-btn.secondary{background:transparent;color:#888;border-color:#444;font-size:11px;padding:4px 16px;margin-top:3px;width:auto}
-        .menu-btn.download{background:rgba(255,215,0,0.15);border-color:#FFD700;color:#FFD700;font-size:12px;padding:6px 18px;width:auto;margin-top:6px}
-        .menu-btn.download:hover{background:rgba(255,215,0,0.25)}
         .menu-btn.install{background:rgba(76,175,80,0.15);border-color:#4CAF50;color:#4CAF50;font-size:12px;padding:6px 18px;width:auto;margin-top:6px}
         .menu-btn.install:hover{background:rgba(76,175,80,0.25)}
         .menu-stats{color:#666;font-size:9px;text-align:center;margin-top:6px;line-height:1.4}
         .menu-stats span{color:#4a9e6e}
         .ui{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;color:#4a9e6e;font-size:10px;padding:0 2px;gap:2px;width:100%;flex-shrink:0}
         .ui span{background:rgba(15,52,96,0.85);padding:2px 5px;border-radius:3px;border:1px solid #4a9e6e;font-size:9px;white-space:nowrap}
-        #restartBtn,#menuBtn,#fullscreenBtn,#downloadBtn,#installBtn{background:rgba(74,158,110,0.15);border:1px solid #4a9e6e;color:#4a9e6e;padding:2px 10px;border-radius:3px;cursor:pointer;font-family:'Courier New',monospace;font-size:9px;transition:0.3s;display:inline-flex;align-items:center;justify-content:center}
-        #restartBtn:active,#menuBtn:active,#fullscreenBtn:active,#downloadBtn:active,#installBtn:active{transform:scale(0.95)}
+        #restartBtn,#menuBtn,#fullscreenBtn,#installBtn{background:rgba(74,158,110,0.15);border:1px solid #4a9e6e;color:#4a9e6e;padding:2px 10px;border-radius:3px;cursor:pointer;font-family:'Courier New',monospace;font-size:9px;transition:0.3s;display:inline-flex;align-items:center;justify-content:center}
+        #restartBtn:active,#menuBtn:active,#fullscreenBtn:active,#installBtn:active{transform:scale(0.95)}
         #menuBtn{border-color:#FFD700;color:#FFD700;background:rgba(255,215,0,0.1)}
         #fullscreenBtn{font-size:14px;padding:2px 8px}
-        #downloadBtn{border-color:#FFD700;color:#FFD700;background:rgba(255,215,0,0.1);font-weight:bold}
         #installBtn{border-color:#4CAF50;color:#4CAF50;background:rgba(76,175,80,0.1);font-weight:bold}
         .level-display{background:rgba(15,52,96,0.85);padding:2px 6px;border-radius:3px;border:1px solid #FFD700;color:#FFD700;font-size:9px;font-weight:bold}
         .player-tag{font-size:7px;padding:1px 3px;border-radius:2px;font-weight:bold}
@@ -109,8 +107,8 @@
         .potion-row{display:flex;gap:6px}
         .controls-hint{color:#555;font-size:7px;text-align:center;display:none;width:100%;flex-shrink:0}
         .weather-indicator{position:absolute;top:4px;right:6px;font-size:14px;opacity:0.5;pointer-events:none;z-index:5}
-        @media(max-width:768px){.game-wrapper{padding:3px;border-radius:6px;gap:3px}.ui span{font-size:8px;padding:1px 4px}#restartBtn,#menuBtn,#fullscreenBtn,#downloadBtn,#installBtn{font-size:8px;padding:1px 6px}#fullscreenBtn{font-size:12px;padding:1px 6px}.mobile-controls{display:flex!important}.controls-hint{display:block!important}.walk-btn{width:44px;height:44px;font-size:20px}.action-btn{width:48px;height:48px;font-size:20px;border-width:2.5px}.action-btn.potion-btn{width:36px;height:36px;font-size:14px}.action-btn .label,.walk-btn .label{font-size:6px}.walk-controls{padding:6px 10px;gap:6px}.level-display{font-size:8px;padding:1px 5px}.menu-title{font-size:20px}.menu-subtitle{font-size:10px;margin-bottom:8px}.mode-btn{padding:5px 8px;font-size:9px;min-width:45px}.mode-btn .mode-icon{font-size:14px}.diff-btn{padding:4px 6px;font-size:9px;min-width:35px}.diff-btn .diff-icon{font-size:12px}.menu-btn{font-size:12px;padding:5px 16px}.menu-stats{font-size:8px}.dialogue-box{font-size:12px;padding:8px 16px;bottom:80px}}
-        @media(orientation:landscape)and(max-height:500px){.game-wrapper{flex-direction:row;flex-wrap:wrap;padding:4px;gap:4px}.canvas-wrapper{flex:2 1 55%;min-width:55%;height:90%}.ui{flex:1 1 100%;margin-top:2px;padding:0 4px;gap:3px}.ui span{font-size:8px;padding:2px 5px}.mobile-controls{bottom:15px;left:15px;right:15px}.walk-btn{width:55px;height:55px;font-size:26px}.action-btn{width:60px;height:60px;font-size:26px;border-width:3px}.action-btn.potion-btn{width:44px;height:44px;font-size:18px}.action-btn .label,.walk-btn .label{font-size:8px}.walk-controls{padding:8px 14px;gap:8px}.controls-hint{display:none!important}.level-display{font-size:9px;padding:2px 8px}#restartBtn,#menuBtn,#fullscreenBtn,#downloadBtn,#installBtn{font-size:9px;padding:2px 10px}#fullscreenBtn{font-size:16px;padding:2px 10px}.menu-title{font-size:18px}.menu-subtitle{font-size:9px;margin-bottom:6px}.mode-btn,.diff-btn{font-size:8px;padding:4px 6px;min-width:40px}.mode-btn .mode-icon{font-size:12px}.diff-btn .diff-icon{font-size:10px}.menu-btn{font-size:11px;padding:4px 14px}.menu-stats{font-size:7px}.dialogue-box{font-size:12px;padding:6px 14px;bottom:80px}}
+        @media(max-width:768px){.game-wrapper{padding:3px;border-radius:6px;gap:3px}.ui span{font-size:8px;padding:1px 4px}#restartBtn,#menuBtn,#fullscreenBtn,#installBtn{font-size:8px;padding:1px 6px}#fullscreenBtn{font-size:12px;padding:1px 6px}.mobile-controls{display:flex!important}.controls-hint{display:block!important}.walk-btn{width:44px;height:44px;font-size:20px}.action-btn{width:48px;height:48px;font-size:20px;border-width:2.5px}.action-btn.potion-btn{width:36px;height:36px;font-size:14px}.action-btn .label,.walk-btn .label{font-size:6px}.walk-controls{padding:6px 10px;gap:6px}.level-display{font-size:8px;padding:1px 5px}.menu-title{font-size:20px}.menu-subtitle{font-size:10px;margin-bottom:8px}.mode-btn{padding:5px 8px;font-size:9px;min-width:45px}.mode-btn .mode-icon{font-size:14px}.diff-btn{padding:4px 6px;font-size:9px;min-width:35px}.diff-btn .diff-icon{font-size:12px}.menu-btn{font-size:12px;padding:5px 16px}.menu-stats{font-size:8px}.dialogue-box{font-size:12px;padding:8px 16px;bottom:80px}}
+        @media(orientation:landscape)and(max-height:500px){.game-wrapper{flex-direction:row;flex-wrap:wrap;padding:4px;gap:4px}.canvas-wrapper{flex:2 1 55%;min-width:55%;height:90%}.ui{flex:1 1 100%;margin-top:2px;padding:0 4px;gap:3px}.ui span{font-size:8px;padding:2px 5px}.mobile-controls{bottom:15px;left:15px;right:15px}.walk-btn{width:55px;height:55px;font-size:26px}.action-btn{width:60px;height:60px;font-size:26px;border-width:3px}.action-btn.potion-btn{width:44px;height:44px;font-size:18px}.action-btn .label,.walk-btn .label{font-size:8px}.walk-controls{padding:8px 14px;gap:8px}.controls-hint{display:none!important}.level-display{font-size:9px;padding:2px 8px}#restartBtn,#menuBtn,#fullscreenBtn,#installBtn{font-size:9px;padding:2px 10px}#fullscreenBtn{font-size:16px;padding:2px 10px}.menu-title{font-size:18px}.menu-subtitle{font-size:9px;margin-bottom:6px}.mode-btn,.diff-btn{font-size:8px;padding:4px 6px;min-width:40px}.mode-btn .mode-icon{font-size:12px}.diff-btn .diff-icon{font-size:10px}.menu-btn{font-size:11px;padding:4px 14px}.menu-stats{font-size:7px}.dialogue-box{font-size:12px;padding:6px 14px;bottom:80px}}
     </style>
 </head>
 <body>
@@ -157,8 +155,7 @@
             </div>
             <button class="menu-btn" id="startGameBtn">⚔️ НАЧАТЬ</button>
             <button class="menu-btn secondary" id="resetStatsBtn">🔄 Сбросить статистику</button>
-            <button class="menu-btn download" id="downloadGameBtn">📥 Скачать игру</button>
-            <button class="menu-btn install" id="installGameBtn" style="display:none;">📲 Установить игру</button>
+            <button class="menu-btn install" id="installGameBtn">📲 Установить игру</button>
             <div class="menu-stats" id="menuStats">🏆 Лучший уровень: <span id="bestLevel">1</span> &nbsp;|&nbsp; 💀 Убито: <span id="totalKillsStat">0</span> &nbsp;|&nbsp; 🧱 Собрано: <span id="totalBricksStat">0</span></div>
         </div>
     </div>
@@ -172,8 +169,7 @@
         <button id="menuBtn">📋</button>
         <button id="fullscreenBtn">⛶</button>
         <button id="restartBtn">🔄</button>
-        <button id="downloadBtn">📥</button>
-        <button id="installBtn" style="display:none;">📲</button>
+        <button id="installBtn">📲</button>
     </div>
     <div class="controls-hint" id="controlsHint">🎮 Кнопки ходьбы слева | Действия справа</div>
 </div>
@@ -265,47 +261,8 @@ document.getElementById('fullscreenBtn').addEventListener('click', () => {
 });
 
 // ============================================================
-// КНОПКА СКАЧИВАНИЯ (оригинальная функция)
-// ============================================================
-function downloadGame() {
-    const htmlContent = document.documentElement.outerHTML;
-    const htmlBlob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-    if (typeof JSZip !== 'undefined') {
-        const zip = new JSZip();
-        zip.file('index.html', htmlBlob);
-        zip.generateAsync({ type: 'blob' }).then(function(content) {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(content);
-            link.download = 'Ведьмак-Наследие-PWA.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-        });
-    } else {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(htmlBlob);
-        link.download = 'Ведьмак-Наследие.html';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-    }
-}
-// Подгружаем JSZip
-if (typeof JSZip === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-    script.onload = () => console.log('JSZip готов');
-    document.head.appendChild(script);
-}
-document.getElementById('downloadGameBtn').addEventListener('click', downloadGame);
-document.getElementById('downloadBtn').addEventListener('click', downloadGame);
-
-// ============================================================
 // ОРИГИНАЛЬНЫЙ КОД ИГРЫ (ПОЛНОСТЬЮ)
 // ============================================================
-// (далее идёт ваш исходный JavaScript без изменений, начиная с canvas)
 const canvas=document.getElementById('gameCanvas');
 const ctx=canvas.getContext('2d');
 const W=800,H=400;
@@ -472,4 +429,3 @@ console.log('📲 PWA установка: ' + (window.matchMedia('(display-mode:
 </script>
 </body>
 </html>
-         
